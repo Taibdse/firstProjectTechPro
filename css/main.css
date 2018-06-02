@@ -1,0 +1,10 @@
+body{
+  font-size: 0.9em !important;
+}
+.checkbox-custom{
+  width: 16px;
+  height: 16px;
+}
+.bg-main-color{
+  background-color: #77CC6D !important;
+}
