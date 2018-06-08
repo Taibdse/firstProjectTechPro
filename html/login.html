@@ -5,6 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <!-- Bootstrap core css -->
   <link rel="stylesheet" href="../MDB Free/css/bootstrap.min.css">
 
@@ -12,42 +16,54 @@
   <link rel="stylesheet" href="../MDB Free/css/mdb.min.css">
 
   <link rel="stylesheet" href="../css/login.css">
+  <link rel="stylesheet" href="../css/main.css">
   <title>Login</title>
 </head>
 
 <body>
   <div class="container">
-    <h1 class="text-center my-5">Login Form</h1>
     <div class="row">
-      <div class="col-sm-6 mx-auto">
-        <form id="formLogin">
-          <div class="form-group">
-            <label for="#usernameLogin">User name</label>
-            <input type="text" class="form-control" id="usernameLogin" placeholder="Enter your username" name="usernameLogin">
+      <div class="col-lg-4 col-md-7 mx-auto">
+        <div class="card">
+          <div class="card-header custom-card-header bg-main-color">
+            <h4>
+              <i class="fa fa-shield" style="margin-right: 10px"></i>Login Form</h4>
           </div>
-          <div class="form-group">
-            <label for="#passwordLogin">Password</label>
-            <input type="password" class="form-control" id="passwordLogin" placeholder="Enter your password" name="passwordLogin">
+          <div class="card-body custom-card-body">
+            <form id="formLogin">
+              <div class="form-group">
+                <label for="#usernameLogin">Phone number</label>
+                <input type="number" class="form-control" id="usernameLogin" placeholder="Phone number" name="usernameLogin">
+              </div>
+              <div class="form-group">
+                <label for="#passwordLogin">Password</label>
+                <input type="password" class="form-control" id="passwordLogin" placeholder="Password" name="passwordLogin">
+              </div>
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input checkbox-custom" id="checkLogin">
+                <label class="form-check-label" for="#checkLogin">Check me out</label>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-success my-3">Log in</button>
+                <button class="btn btn-reset" type="reset">Reset</button>
+              </div>
+            </form>
           </div>
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input checkbox-custom" id="checkLogin">
-            <label class="form-check-label" for="#checkLogin">Check me out</label>
-          </div>
-          <button type="submit" class="btn btn-primary my-3">Submit</button>
-        </form>
+        </div>
+
       </div>
     </div>
   </div>
 
 
-<!-- JQuery core -->
-<script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
+  <!-- JQuery core -->
+  <script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
 
-<!-- popper js core -->
-<script src="../MDB Free/js/popper.min.js"></script>
+  <!-- popper js core -->
+  <script src="../MDB Free/js/popper.min.js"></script>
 
-<!-- bootstrap js core -->
-<script src="../MDB Free/js/bootstrap.min.js"></script>
+  <!-- bootstrap js core -->
+  <script src="../MDB Free/js/bootstrap.min.js"></script>
 </body>
 
 </html>

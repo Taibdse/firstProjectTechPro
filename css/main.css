@@ -6,5 +6,57 @@ body{
   height: 16px;
 }
 .bg-main-color{
-  background-color: #77CC6D !important;
+  background-color: #293030 !important;
 }
+.card-guard .btn-group-custom .btn{
+  font-size: 1em;
+}
+.navbar .icon-navbar{
+  font-size: 1.2em;
+}
+.navbar i{
+  color: white;
+}
+.navbar *{
+  color: white;
+  font-weight: 600;
+  font-size: 1em;
+}
+.navbar .nav-item:hover{
+  background-color: skyblue;
+}
+.btn-custom{
+  margin-right: 5px;
+  font-size: 0.9em;
+  padding: 7px 10px;
+}
+.input-custom{
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.combobox-custom{
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.icon-custom{
+  font-size: 2.2em;
+  color: lightblue;
+  margin-right: 15px;
+}
+.custom-table td, .custom-table th{
+  padding-top:10px !important; 
+  padding-bottom:10px !important; 
+}
+.custom-card-header{
+  padding-top: 5px !important;
+  padding-bottom: 0 !important;
+}
+.custom-card-body{
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+.card-header{
+  color: white;
+}
+

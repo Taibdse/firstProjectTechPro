@@ -1,3 +1,8 @@
+$('.datepicker').datepicker();
+
+$('.datetimepicker').datetimepicker({format: 'yyyy-mm-dd hh:ii'})
+
+
 var mymap = L.map('mapid').setView([51.505, -0.09], 13);
 
 mapboxgl.accessToken =
@@ -41,6 +46,4 @@ map.on('load', function () {
   });
 });
 
-$('.datepicker').datepicker();
 
-$('.datetimepicker').datetimepicker({format: 'yyyy-mm-dd hh:ii'});
