@@ -49,21 +49,6 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">
-              <i class="fa fa-home icon-navbar"></i> Company
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <i class="fa fa-user icon-navbar"></i>Client
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <i class="fa fa-line-chart icon-navbar"></i>Routes
-            </a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
               <i class="	fa fa-book icon-navbar"></i>Reports
@@ -76,7 +61,7 @@
           </li>
         </ul>
         <ul class="navbar-nav">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="" class="nav-link">
             <i class="fa fa-file-sound-o icon-navbar"></i>Mute
           </a>
@@ -90,7 +75,7 @@
             <a href="" class="nav-link">
               <i class="fa fa-cog icon-navbar"></i>Iosdemo
             </a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>
@@ -105,7 +90,9 @@
         <!-- card filter start -->
         <div class="card card filter">
           <div class="card-header bg-main-color custom-card-header">
-            <h4>Filters</h4>
+            <h4>
+             <i class="fa fa-filter"></i> Filters
+            </h4>
           </div>
           <div class="card-body custom-card-body">
               <!-- <div class="col-md-6">
@@ -158,9 +145,9 @@
               </div>
 
             <div class="row mt-3">
-              <button class="btn btn-custom btn-info">Refresh</button>
-              <button class="btn btn-custom btn-info">Export to PDF</button>
-              <button class="btn btn-custom btn-info">Send Email</button>
+              <button class="btn btn-custom bg-main-color">Refresh</button>
+              <button class="btn btn-custom bg-main-color">Export to PDF</button>
+              <button class="btn btn-custom bg-main-color">View</button>
             </div>
           </div>
         </div>
@@ -172,19 +159,10 @@
       <!-- card incident start -->
       <div class="card card-incident">
         <div class="card-header bg-main-color custom-card-header">
-          <h4><i class="	fa fa-exclamation-triangle"></i> Incidents</h4>
+          <h4><i class="fa fa-exclamation-triangle"></i> Incidents</h4>
         </div>
         <div class="card-body custom-card-body">
-          <div class="row border py-2 mt-2">
-            <div class="col-12">
-              <span class="pt-5">
-                  <i class="fa fa-rotate-right icon-custom"></i>
-              </span>
-              <button class="btn btn-info btn-custom">Add Incidents</button>
-              <button class="btn btn-info btn-custom">Edit</button>
-              <button class="btn btn-info btn-custom">Remove</button>
-            </div>
-          </div>
+          
           <table class="table table-hover table-striped table-condensed text-center custom-table">
             <thead>
               <tr>
