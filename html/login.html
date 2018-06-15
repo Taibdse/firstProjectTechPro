@@ -15,8 +15,9 @@
   <!-- Meterial Design Bootstrap -->
   <link rel="stylesheet" href="../MDB Free/css/mdb.min.css">
 
-  <link rel="stylesheet" href="../css/login.css">
-  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../custom/css/main.css">
+
+  <link rel="stylesheet" href="../custom/css/login.css">
   <title>Login</title>
 </head>
 
@@ -72,8 +73,8 @@
     function checkLogin() {
       event.preventDefault();
 
-      //let username = $('#usernameLogin').val();
-      //let password = $('#passwordLogin').val();
+      let username = $('#usernameLogin').val();
+      let password = $('#passwordLogin').val();
       let data = {
         "sUserName": "nguyendung",
         "sPassWord": "123456789"
@@ -85,6 +86,7 @@
           data: data
         })
         .then(res => {
+          
           console.log(res);
         })
         .catch(err => console.log(err));

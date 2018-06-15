@@ -18,9 +18,8 @@
   <!-- datepicker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datepicker3.min.css">
 
-  <!-- leaflet css cdn -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
-    crossorigin="" />
+  <!-- leaflet css -->
+  <link rel="stylesheet" href="../plugins/leaflet/css/leaflet.css">
 
   <!-- map box css cdn -->
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
@@ -28,11 +27,11 @@
   <!-- bootstrap datetime picker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
 
-  <!-- main view custom css -->
-  <link rel="stylesheet" href="../css/mainView.css">
-
   <!-- custom main css -->
-  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../custom/css/main.css">
+
+  <!-- main view custom css -->
+  <link rel="stylesheet" href="../custom/css/mainView.css">
 
   <title>Main View</title>
 </head>
@@ -40,8 +39,10 @@
 <body>
   <!-- navbar start-->
   <nav class="navbar navbar-expand-lg bg-main-color white-text">
-    <div class="container">
-      <a class="navbar-brand" href="#"><i class="fa fa-shield icon-custom" style="color: whitesmoke"></i></a>
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <i class="fa fa-shield icon-custom" style="color: whitesmoke"></i>
+      </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
         aria-expanded="false" aria-label="Toggle navigation">
         <i class="fa fa-bars icon-custom" style="color: white"></i>
@@ -50,17 +51,20 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <i class="	fa fa-book icon-navbar"></i>Reports
+            <a class="nav-link " href="#">
+              <i class="	fa fa-book icon-navbar"></i>
+              <span class="trn">Reports</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
-              <i class="fa fa-rotate-right icon-navbar"></i>Refresh
+              <i class="fa fa-rotate-right icon-navbar"></i>
+              <span class="trn">Refresh</span>
             </a>
           </li>
         </ul>
         <ul class="navbar-nav">
+          <button class="btn custom-btn bg-main-color trn" id="changeLanguage">English</button>
           <!-- <li class="nav-item">
             <a href="" class="nav-link">
             <i class="fa fa-file-sound-o icon-navbar"></i>Mute
@@ -89,55 +93,12 @@
         <!-- card guard start -->
         <div class="card card-guard">
           <div class="card-header bg-main-color custom-card-header">
-            <h4>Guard</h4>
+            <h4 class="trn">Guard</h4>
           </div>
           <div class="card-body custom-card-body">
-            <div class="table-responsive">
-              <table class="table table-striped table-hover my-1 custom-table">
-                <thead>
-                  <tr>
-                    <th>Guard Name</th>
-                    <th>Last Site Visted</th>
-                    <th>Guard ID</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>name 1</td>
-                    <td>Site 1</td>
-                    <td>ID 1</td>
-                  </tr>
-                  <tr>
-                    <td>name 2</td>
-                    <td>Site 2</td>
-                    <td>ID 2</td>
-                  </tr>
-                  <tr>
-                    <td>name 3</td>
-                    <td>Site 3</td>
-                    <td>ID 3</td>
-                  </tr>
-                  <tr>
-                    <td>name 3</td>
-                    <td>Site 3</td>
-                    <td>ID 3</td>
-                  </tr>
-                  <tr>
-                    <td>name 3</td>
-                    <td>Site 3</td>
-                    <td>ID 3</td>
-                  </tr>
-                  <tr>
-                    <td>name 3</td>
-                    <td>Site 3</td>
-                    <td>ID 3</td>
-                  </tr>
-                  <tr>
-                    <td>name 3</td>
-                    <td>Site 3</td>
-                    <td>ID 3</td>
-                  </tr>
-                </tbody>
+            <div class="table-responsive" style="overflow-y: auto; height: 350px">
+              <table class="table table-striped table-hover my-1 custom-table text-center" id="tblGuard">
+                <!-- guard content here -->
               </table>
             </div>
           </div>
@@ -153,7 +114,7 @@
           <div class="card-header bg-main-color custom-card-header">
             <div class="row">
               <div class="col-12">
-                <h4>Map</h4>
+                <h4 class="trn">Map</h4>
               </div>
             </div>
           </div>
@@ -165,58 +126,21 @@
           </div>
         </div>
         <!-- card map end -->
-        <br>
-
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-12">
         <!-- card controls start -->
         <div class="card card-controls">
           <!-- card header -->
           <div class="card-header bg-main-color custom-card-header">
-            <h4>Events</h4>
+            <h4 class="trn">Events</h4>
           </div>
           <div class="card-body custom-card-body">
             <div class="row mt-1">
               <div class="table-responsive">
-                <table class="table table-hover table-striped text-center custom-table">
-                  <thead>
-                    <tr>
-                      <th>Date</th>
-                      <th>Event type</th>
-                      <th>Event Details</th>
-                      <th>Check point</th>
-                      <th>Tour ID</th>
-                      <th>Guard Name</th>
-                      <th>Image | Audio</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>23/03/12</td>
-                      <td>event type</td>
-                      <td>event detail</td>
-                      <td>check point</td>
-                      <td>ID 1</td>
-                      <td>name 1</td>
-                      <td>image 1</td>
-                    </tr>
-                    <tr>
-                      <td>23/03/12</td>
-                      <td>event type</td>
-                      <td>event detail</td>
-                      <td>check point</td>
-                      <td>ID 1</td>
-                      <td>name 1</td>
-                      <td>image 1</td>
-                    </tr>
-                    <tr>
-                      <td>23/03/12</td>
-                      <td>event type</td>
-                      <td>event detail</td>
-                      <td>check point</td>
-                      <td>ID 1</td>
-                      <td>name 1</td>
-                      <td>image 1</td>
-                    </tr>
-                  </tbody>
+                <table class="table table-hover table-striped text-center custom-table" id="tblEvents">
+                  <!-- event content here -->
                 </table>
               </div>
 
@@ -231,6 +155,9 @@
 
   <!-- JQuery core -->
   <script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
+
+  <!-- jQuery translate.js -->
+  <script src="../plugins/translate.js-master/jquery.translate.js"></script>
 
   <!-- popper js core -->
   <script src="../MDB Free/js/popper.min.js"></script>
@@ -255,7 +182,20 @@
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
 
   <!-- custom main.jc -->
-  <script src="../js/main.js"></script>
+  <script src="../custom/js/main.js"></script>
+
+  <!-- translate js -->
+  <script src="../custom/js/translate.js"></script>
+
+  <!-- map js -->
+  <script src="../custom/js/map.js"></script>
+  
+  <!-- leaflet js -->
+  <script src="../plugins/leaflet/js/leaflet.js"></script>
+
+ 
+
+
 
 </body>
 

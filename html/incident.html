@@ -29,10 +29,10 @@
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
 
   <!-- main view custom css -->
-  <link rel="stylesheet" href="../css/mainView.css">
-  
+  <link rel="stylesheet" href="../custom/css/main.css">
+
   <!-- custom main css -->
-  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../custom/css/mainView.css">
 
   <title>Main View</title>
 </head>
@@ -41,7 +41,9 @@
   <!-- navbar start-->
   <nav class="navbar navbar-expand-lg bg-main-color white-text">
     <div class="container">
-      <a class="navbar-brand" href="#"><i class="fa fa-shield icon-custom" style="color: whitesmoke"></i></a>
+      <a class="navbar-brand" href="#">
+        <i class="fa fa-shield icon-custom" style="color: whitesmoke"></i>
+      </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
         aria-expanded="false" aria-label="Toggle navigation">
         <i class="fa fa-bars icon-custom" style="color: white"></i>
@@ -86,16 +88,16 @@
 
     <div class="row my-3 row-custom">
       <!-- filter and incident card -->
-      <div class="col-md-4">
+      <div class="col-md-3">
         <!-- card filter start -->
         <div class="card card filter">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
-             <i class="fa fa-filter"></i> Filters
+              <i class="fa fa-filter"></i> Filters
             </h4>
           </div>
           <div class="card-body custom-card-body">
-              <!-- <div class="col-md-6">
+            <!-- <div class="col-md-6">
                 <span class="">From</span>
                 <div class="input-group date" data-provide="datepicker">
                   <input type="text" class="form-control input-custom">
@@ -111,7 +113,7 @@
                   </div>
                 </div>
               </div> -->
-              <!-- <div class="col-md-6">
+            <!-- <div class="col-md-6">
                 <select name="" id="clientCombobox" class="form-control combobox-custom">
                   <option value="" class="combobox-custom">Client 1</option>
                   <option value="">Client 2</option>
@@ -130,19 +132,21 @@
                   <option value="">Client 3</option>
                 </select>
               </div> -->
-              <div class="row">
-                <div class="col-12">
-                    <label for="">From</label><br>
-                    <input type="text" readonly class="datetimepicker" class="form-control" style="width: 100%">
-                </div>
+            <div class="row">
+              <div class="col-12">
+                <label for="">From</label>
+                <br>
+                <input type="text" readonly class="datetimepicker" class="form-control" style="width: 100%" id="fromDateTime">
               </div>
+            </div>
 
-              <div class="row">
-                <div class="col-12">
-                    <label for="">To</label><br>
-                    <input type="text" readonly class="datetimepicker" class="form-control" style="width: 100%">
-                </div>
+            <div class="row">
+              <div class="col-12">
+                <label for="">To</label>
+                <br>
+                <input type="text" readonly class="datetimepicker" class="form-control" style="width: 100%" id="toDateTime">
               </div>
+            </div>
 
             <div class="row mt-3">
               <button class="btn btn-custom bg-main-color">Refresh</button>
@@ -154,74 +158,22 @@
         <!-- card filter end -->
       </div>
 
-      <div class="col-md-8">
+      <div class="col-md-9">
 
-      <!-- card incident start -->
-      <div class="card card-incident">
-        <div class="card-header bg-main-color custom-card-header">
-          <h4><i class="fa fa-exclamation-triangle"></i> Incidents</h4>
-        </div>
-        <div class="card-body custom-card-body">
-          
-          <table class="table table-hover table-striped table-condensed text-center custom-table">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Guard</th>
-                <th>Num. of incident</th>
-                <th>Client</th>
-                <th>Site</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>2015/07/13</td>
-                <td>Guard 1</td>
-                <td>4</td>
-                <td>CLient 1</td>
-                <td>Site 1</td>
-              </tr>
-              <tr>
-                <td>2015/07/13</td>
-                <td>Guard 1</td>
-                <td>4</td>
-                <td>CLient 1</td>
-                <td>Site 1</td>
-              </tr>
-              <tr>
-                <td>2015/07/13</td>
-                <td>Guard 1</td>
-                <td>4</td>
-                <td>CLient 1</td>
-                <td>Site 1</td>
-              </tr>
-              <tr>
-                <td>2015/07/13</td>
-                <td>Guard 1</td>
-                <td>4</td>
-                <td>CLient 1</td>
-                <td>Site 1</td>
-              </tr>
-              <tr>
-                <td>2015/07/13</td>
-                <td>Guard 1</td>
-                <td>4</td>
-                <td>CLient 1</td>
-                <td>Site 1</td>
-              </tr>
-              <tr>
-                <td>2015/07/13</td>
-                <td>Guard 1</td>
-                <td>4</td>
-                <td>CLient 1</td>
-                <td>Site 1</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <!-- card incident end -->
+        <!-- card incident start -->
+        <div class="card card-incident">
+          <div class="card-header bg-main-color custom-card-header">
+            <h4>
+              <i class="fa fa-exclamation-triangle"></i> Incidents</h4>
+          </div>
+          <div class="card-body custom-card-body table-responsive">
 
+            <table class="table table-hover table-striped table-condensed text-center custom-table" id="tblEvents">
+              <!-- incident content here -->
+            </table>
+          </div>
+        </div>
+        <!-- card incident end -->
       </div>
     </div>
 
@@ -251,10 +203,90 @@
 
   <!-- mapbox js CDN -->
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
-  
-  <!-- custom main.jc -->
-  <script src="../js/main.js"></script>
 
+  <!-- custom main.jc -->
+  <script src="../custom/js/main.js"></script>
+  <script>
+    $(() => {
+
+      $('#fromDateTime').change(getEventsData);
+      $('#toDateTime').change(getEventsData);
+
+    })
+
+    async function getEventsData() {
+      let fromTime = $('#fromDateTime').val();
+      let toTime = $('#toDateTime').val();
+
+      if (fromTime != '' && toTime != '') {
+        let sentData = {
+          fromDate: fromTime,
+          toDate: toTime
+        };
+
+        let data = await $.ajax({
+          url: 'http://115.79.27.219/tracking/api/GetEventHistory.php',
+          method: 'post',
+          data: JSON.stringify(sentData)
+        });
+        if (data) renderEventsTable(JSON.parse(data));
+      }
+    }
+
+
+    // async function showEventsInfo() {
+    //   let data = await getEvensData();
+    //   if (data) renderEventsTable(JSON.parse(data));
+    // }
+
+    function renderEventsTable(data) {
+      console.log('data: '+data)
+
+      let $table = $('#tblEvents')
+      $table.html('');
+      let $thead = $('<thead></thead>');
+      let $tbody = $('<tbody></tbody>');
+
+      $thead.html(
+          `
+          <tr>
+            <th class="trn">GuardName</th>
+            <th class="trn">ZoneName</th>
+            <th class="trn">DateTimeStart</th>
+            <th class="trn">DateTimeEnd</th>
+            <th class="trn">TimeComplete</th>
+            <th class="trn">TimeCurrent</th>
+            <th class="trn">Distance</th>
+            <th class=trn""></th>
+          </tr>
+        `
+      )
+
+      let htmltBody = '';
+      data.forEach(event => {
+        htmltBody +=
+          `
+          <tr>
+            <td>${event.sGuardName}</td>
+            <td>${event.sZoneName}</td>
+            <td>${event.dDateTimeStart}</td>
+            <td>${event.dDateTimeEnd}</td>
+            <td>${event.iTimeComplete}</td>
+            <td>${event.iTimeCurrent}</td>
+            <td>${event.dDistance}</td>
+            <td><button class="btn btn-custom bg-main-color" onClick = "showIncidentDetails('${event.sCheckingCode}')">View Details</button></td>
+          </tr>
+        `
+      })
+      $tbody.html(htmltBody);
+
+      $table.append($thead).append($tbody);
+    }
+
+    function showIncidentDetails(checkingCode) {
+      alert(checkingCode);
+    }
+  </script>
 </body>
 
 </html>
