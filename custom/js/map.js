@@ -16,28 +16,27 @@ function renderMap(Guard, CheckPoints, Zone) {
   });
 
   var Checked = new LeafIcon({
-      iconUrl: '../img/Checked.png'
-    }),
-    Waiting = new LeafIcon({
-      iconUrl: '../img/Waiting.png'
-    }),
-    None = new LeafIcon({
-      iconUrl: '../img/None.png'
-    }),
-    Alert = new LeafIcon({
-      iconUrl: '../img/Alert.png'
-    }),
-    Error = new LeafIcon({
-      iconUrl: '../img/error.png'
-    }),
-    Guard = new LeafIcon({
-      iconUrl: 'https://image.flaticon.com/icons/png/512/33/33622.png'
+       iconUrl: '../img/Checked.png'
+    });
+  var Waiting = new LeafIcon({
+       iconUrl: '../img/Waiting.png'
+    });
+  var None = new LeafIcon({
+       iconUrl: '../img/None.png'
+    });
+  var Alert = new LeafIcon({
+       iconUrl: '../img/Alert.png'
+    });
+  var Error = new LeafIcon({
+       iconUrl: '../img/error.png'
+    });
+  var Guard = new LeafIcon({
+       iconUrl: 'https://image.flaticon.com/icons/png/512/33/33622.png'
     });
 
   L.icon = function (options) {
     return new L.Icon(options);
   };
-
 
   for (var i = 0; i < Guard.length; i++) {
     var lon = Guard[i][0];
@@ -69,6 +68,7 @@ function renderMap(Guard, CheckPoints, Zone) {
     var message = CheckPoints[i][2];
     var imgurl = CheckPoints[i][3];
     var checkedpoint = CheckPoints[i][5];
+    
     if (checkedpoint == 1) {
       message = message + "<br> <center><img src='" + imgurl +
         "' alt = '' style='width:200px;height:200px;'></center>";
@@ -125,5 +125,6 @@ async function getZoneInfo() {
     url: 'http://115.79.27.219/tracking/api/Zone.php',
     method: 'post'
   });
+
   return data;
 }

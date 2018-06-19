@@ -49,19 +49,19 @@ const dictionary = {
   }
 }
 
-var translator = $('body').translate({lang: "en", t: dictionary}); //use English
+// var translator = $('body').translate({lang: "en", t: dictionary}); //use English
 
-translator.lang("vn"); //change to Vietnamese
+// translator.lang("vn"); //change to Vietnamese
 
-function changeLanguage(){
-  if(appCurrentLang == "vn") {
-    translator.lang("en");
-    appCurrentLang = "en";
-  }
-  else {
-    translator.lang("vn");
-    appCurrentLang = "vn";
-  }
-}
+// function changeLanguage(){
+//   if(appCurrentLang == "vn") {
+//     translator.lang("en");
+//     appCurrentLang = "en";
+//   }
+//   else {
+//     translator.lang("vn");
+//     appCurrentLang = "vn";
+//   }
+// }
 
-$('#changeLanguage').click(changeLanguage)
+// $('#changeLanguage').click(changeLanguage)

@@ -59,4 +59,7 @@ body{
 .card-header{
   color: white;
 }
+.card-body{
+  padding: 5px !important;
+}
 

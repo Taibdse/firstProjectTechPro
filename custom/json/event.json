@@ -1,0 +1,83 @@
+[{
+  "sCheckingCode": "1209512717062018",
+  "sZoneName": "Zone2",
+  "sGuardName": "Vu Hoang",
+  "dDateTimeStart": "09:51:27 17\/06\/2018",
+  "dDateTimeEnd": "09:53:50 17\/06\/2018",
+  "iTimeComplete": "100",
+  "iTimeCurrent": "2",
+  "dDistance": "0.0"
+}, {
+  "sCheckingCode": "1209540317062018",
+  "sZoneName": "Zone2",
+  "sGuardName": "Vu Hoang",
+  "dDateTimeStart": "09:54:03 17\/06\/2018",
+  "dDateTimeEnd": "09:54:15 17\/06\/2018",
+  "iTimeComplete": "100",
+  "iTimeCurrent": "2",
+  "dDistance": "0.0"
+}]
+
+// event details
+
+[{
+  "sGuardName": "Vu Hoang",
+  "iPointID": "90",
+  "sStatus": "Not Checked",
+  "dDateTimeHistory": null,
+  "KindCheck": ""
+}, {
+  "sGuardName": "Vu Hoang",
+  "iPointID": "91",
+  "sStatus": "Not Checked",
+  "dDateTimeHistory": null,
+  "KindCheck": ""
+}, {
+  "sGuardName": "Vu Hoang",
+  "iPointID": "92",
+  "sStatus": "Not Checked",
+  "dDateTimeHistory": null,
+  "KindCheck": ""
+}, {
+  "sGuardName": "Vu Hoang",
+  "iPointID": "93",
+  "sStatus": "Not Checked",
+  "dDateTimeHistory": null,
+  "KindCheck": ""
+}, {
+  "sGuardName": "Vu Hoang",
+  "iPointID": "94",
+  "sStatus": "Not Checked",
+  "dDateTimeHistory": null,
+  "KindCheck": ""
+}, {
+  "sGuardName": "Vu Hoang",
+  "iPointID": "95",
+  "sStatus": "Not Checked",
+  "dDateTimeHistory": null,
+  "KindCheck": ""
+}, {
+  "sGuardName": "Vu Hoang",
+  "iPointID": "96",
+  "sStatus": "Not Checked",
+  "dDateTimeHistory": null,
+  "KindCheck": ""
+}, {
+  "sGuardName": "Vu Hoang",
+  "iPointID": "97",
+  "sStatus": "Not Checked",
+  "dDateTimeHistory": null,
+  "KindCheck": ""
+}, {
+  "sGuardName": "Vu Hoang",
+  "iPointID": "98",
+  "sStatus": "Not Checked",
+  "dDateTimeHistory": null,
+  "KindCheck": ""
+}, {
+  "sGuardName": "Vu Hoang",
+  "iPointID": "99",
+  "sStatus": "Not Checked",
+  "dDateTimeHistory": null,
+  "KindCheck": ""
+}]

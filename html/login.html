@@ -55,7 +55,6 @@
     </div>
   </div>
 
-
   <!-- JQuery core -->
   <script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
 
@@ -75,21 +74,20 @@
 
       let username = $('#usernameLogin').val();
       let password = $('#passwordLogin').val();
-      let data = {
-        "sUserName": "nguyendung",
-        "sPassWord": "123456789"
-      };
-      
+
+      let data = { sUserName:"nguyendung", sPassWord:"123456789"};
+
+      let url = 'http://115.79.27.219/tracking/api/CheckLogin.php';
+      // http://192.168.1.128:8080/tracking/api/checklogin.php
       $.ajax({
-          url: 'http://192.168.1.128:8080/tracking/api/checklogin.php',
+          url: 'http://115.79.27.219/tracking/api/CheckLogin.php',
           method: 'post',
-          data: data
+          data: JSON.stringify(data)
         })
         .then(res => {
-          
-          console.log(res);
+          console.log('res ' + res);
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log('err '+err));
     }
 
     function checkValidData(username, password) {

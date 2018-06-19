@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="../MDB Free/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../MDB Free/css/mdb.min.css">
+  <link rel="stylesheet" href="../plugins/datatables/css/datatables.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css">
+  <link rel="stylesheet" href="../plugins/Buttons-1.5.1/css/buttons.bootstrap4.css">
+  <title>pagination</title>
+</head>
+
+<body>
+  <div class="container">
+    <h2 class="text-center my-4">Datatables demo</h2>
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-striped table-hover text-center">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Hulk</td>
+              <td>20</td>
+              <td>hulk@gmail.com</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>Spider man</td>
+              <td>25</td>
+              <td>spiderman@gmail.com</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <table id="example" class="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th>a</th>
+              <th>b</th>
+              <th>c</th>
+              <th>d</th>
+              <th>e</th>
+              <th>f</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+    <div id="abc"></div>
+  </div>
+
+  <script src="../MDB Free/js/jquery-3.3.1.min.js"></script>
+  <script src="../MDB Free/js/bootstrap.min.js"></script>
+  <script src="../MDB Free/js/mdb.min.js"></script>
+  <script src="../plugins/datatables/js/datatables.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.js"></script>
+
+  <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+
+  <script src="../plugins/datatables/JSZip-2.5.0/jszip.min.js"></script>
+  <script src="../plugins/datatables/pdfmake-0.1.36/pdfmake.min.js"></script>
+  <script src="../plugins/Buttons-1.5.1/js/buttons.flash.min.js"></script>
+  <script src="../plugins/Buttons-1.5.1/js/buttons.html5.min.js"></script>
+  <script src="../plugins/Buttons-1.5.1/js/buttons.colVis.min.js"></script>
+  <script src=""></script>
+  <script>
+    var data = [
+      [
+        "Tiger Nixon",
+        "System Architect",
+        "Edinburgh",
+        "5421",
+        "2011/04/25",
+        "$3,120"
+      ],
+      [
+        "Garrett Winters",
+        "Director",
+        "Edinburgh",
+        "8422",
+        "2011/07/25",
+        "$5,300"
+      ]
+    ]
+
+    var table = $('#example').DataTable({
+      data: data,
+      // columns: [{
+      //     data: 'jhgj'
+      //   },
+      //   {
+      //     data: 'position'
+      //   },
+      //   {
+      //     data: 'salary'
+      //   },
+      //   {
+      //     data: 'office'
+      //   }, {
+      //     data: 'abc'
+      //   }, {
+      //     data: 'def'
+      //   }
+      // ]
+    });
+
+    new $.fn.dataTable.Buttons(table, {
+      buttons: [
+        'copy', 'excel', 'pdf'
+      ]
+    });
+
+    table.buttons().container()
+    .appendTo( $('#abc') );
+  </script>
+</body>
+
+</html>
