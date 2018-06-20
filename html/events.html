@@ -40,54 +40,54 @@
 <body>
   <!-- navbar start-->
   <nav class="navbar navbar-expand-lg bg-main-color white-text" style="padding-top: 0; padding-bottom: 0">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-          <i class="fa fa-shield icon-custom" style="color: whitesmoke"></i>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-          aria-expanded="false" aria-label="Toggle navigation">
-          <i class="fa fa-bars icon-custom" style="color: white"></i>
-        </button>
-  
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="mainView.html">
-                <i class="fa fa-book icon-navbar"></i>
-                <span class="trn">Main View</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="events.html">
-                <i class="fa fa-book icon-navbar"></i>
-                <span class="trn">Events</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="incidents.html">
-                <i class="fa fa-book icon-navbar"></i>
-                <span class="trn">Incidents</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="assets.html">
-                <i class="fa fa-book icon-navbar"></i>
-                <span class="trn">Assets</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="points.html">
-                <i class="fa fa-book icon-navbar"></i>
-                <span class="trn">Points</span>
-              </a>
-            </li>
-          </ul>
-          <ul class="navbar-nav">
-            <button class="btn custom-btn bg-main-color trn" id="changeLanguage">English</button>
-  
-          </ul>
-        </div>
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <i class="fa fa-shield icon-custom" style="color: whitesmoke"></i>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa fa-bars icon-custom" style="color: white"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="mainView.html">
+              <i class="fa fa-book icon-navbar"></i>
+              <span class="trn">Main View</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="events.html">
+              <i class="fa fa-book icon-navbar"></i>
+              <span class="trn">Events</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="incidents.html">
+              <i class="fa fa-book icon-navbar"></i>
+              <span class="trn">Incidents</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="assets.html">
+              <i class="fa fa-book icon-navbar"></i>
+              <span class="trn">Assets</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="points.html">
+              <i class="fa fa-book icon-navbar"></i>
+              <span class="trn">Points</span>
+            </a>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <button class="btn custom-btn bg-main-color trn" id="changeLanguage">English</button>
+
+        </ul>
       </div>
+    </div>
   </nav>
   <!-- navbar end -->
 
@@ -148,7 +148,7 @@
           </div>
           <div class="card-body custom-card-body">
             <div class="table-responsive">
-              <table class="table table-hover table-striped table-condensed text-center custom-table" id="tblEventHistory">
+              <table class="table table-hover table-striped table-condensed text-center custom-table" id="tblEventHistory" style="min-height: 150px">
                 <!-- incident content here -->
                 <td>
 
@@ -176,9 +176,9 @@
               </div>
               <div class="modal-body">
                 <div class="table-responsive">
-                    <table class="table table-hover table-striped text-center custom-table" id="tblEventHistoryDetails">
-                      <!-- event history detail content -->
-                    </table>
+                  <table class="table table-hover table-striped text-center custom-table" id="tblEventHistoryDetails">
+                    <!-- event history detail content -->
+                  </table>
                 </div>
               </div>
               <div class="modal-footer">
@@ -188,9 +188,59 @@
           </div>
         </div>
 
-
       </div>
     </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+          id="modalEventHistoryDetailsEdit">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped text-center custom-table" id="tblEventHistoryDetails">
+                    <form action="">
+                      <div class="row">
+                        <div class="col-6">
+                          <div class="form-group">
+                            <label for="">Guard name</label>
+                            <input type="text" class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="form-group">
+                            <label for="">Guard name</label>
+                            <input type="text" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="form-group">
+                            <label for="">Guard name</label>
+                            <input type="text" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </table>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- JQuery core -->

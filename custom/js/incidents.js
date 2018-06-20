@@ -1,10 +1,9 @@
-// http://192.168.1.128:8080/tracking/api/GetIncidentData.php
 
 $(() => {
 
   $('#btnIncidentsData').click(showIncidentsData);
 
-  formatToday();
+  formatTodayIncident();
 
 })
 
@@ -26,11 +25,10 @@ function changeFormatDateTime(time){
 
 async function getIncidentsData(sentData) {
   let data = await $.ajax({
-    url: 'http://192.168.1.128:8080/tracking/api/GetIncidentData.php',
+    url: 'http://115.79.27.219/tracking/api/GetIncidentData.php',
     method: 'post',
     data: sentData
   });
-
   if (data) return JSON.parse(data);
   return null;
 }
@@ -40,48 +38,65 @@ function renderIncidentsTable(data) {
   $table.html('');
   let $thead = $('<thead></thead>');
   let $tbody = $('<tbody></tbody>');
-  // Display detail Incident: Code, Name, Zone, Start, End, Image, Description
 
   $thead.html(
     `
       <tr>
-        <th class="trn">Code</th>
+        <th class="trn"></th>
         <th class="trn">Name</th>
         <th class="trn">Zone</th>
+        <th class="trn">Date</th>
         <th class="trn">Start</th>
         <th class="trn">End</th>
         <th class="trn">Image</th>
         <th class="trn">Description</th>
+        <th class="trn">Map</th>
       </tr>
     `
   )
   if(data){
+    console.log(data);
     let htmltBody = '';
     data.forEach(incident => {
       htmltBody +=
         `
         <tr>
-          <td>${incident.sCheckingCode}</td>
+          <td>
+            <input type="checkbox" class="checkbox-custom checkbox-incident">
+          </td>
           <td>${incident.sGuardName}</td>
           <td>${incident.sZoneName}</td>
+          <td>${incident.dDateTimeIntinial}</td>
           <td>${incident.dDateTimeStart}</td>
           <td>${incident.dDateTimeEnd}</td>
-          <td><img src="http://115.79.27.219/tracking/${incident.ImageUrl}" alt="Image here" style="width:60px; height: 80px"></td>
+          <td>
+            <img src="http://115.79.27.219/tracking/${incident.ImageUrl}" alt="Image here" style="width:60px; height: 80px" onClick="showIncidentImage('${incident.ImageUrl}')">
+          </td>
           <td>${incident.sAlertDescription}</td>
+          <td>
+            <button class="btn btn-custom bg-main-color" onClick="showMapIncident('${incident.sCheckingCode}')"> Map</button>
+        </td>
         </tr>
       `
     })
-    // ../img/alert.png
-    // ${incident.ImageUrl}
     $tbody.html(htmltBody);
-  } else{
+  } else {
     alert('No data');
   }
 
   $table.append($thead).append($tbody);
 }
 
-function formatToday() {
+function showIncidentImage(urlImage){
+  $('#incidentImg').attr({src: `http://115.79.27.219/tracking/${urlImage}`})
+  $('#modalIncidentImage').modal('show');
+}
+
+function showMapIncident(checkingCode){
+  $('#modalmapViewIncident').modal('show');
+}
+
+function formatTodayIncident() {
   let now = new Date();
   let year = now.getFullYear();
   let month = now.getMonth() + 1;

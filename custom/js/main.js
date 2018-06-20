@@ -98,8 +98,9 @@ function renderEventHistoryTable(data) {
       <th class="trn">Code</th>
       <th class="trn">Zone</th>
       <th class="trn">Name</th>
-      <th class="trn">TimeStart</th>
-      <th class="trn">TimeEnd</th>
+      <th class="trn">Date</th>
+      <th class="trn">Start</th>
+      <th class="trn">End</th>
       <th class="trn">Complete</th>
       <th class="trn">Current</th>
       <th class="trn">Distance</th>
@@ -115,6 +116,7 @@ function renderEventHistoryTable(data) {
           <td>${event.sCheckingCode}</td>
           <td>${event.sZoneName}</td>
           <td>${event.sGuardName}</td>
+          <td>${event.dDateTimeIntinial}</td>
           <td>${event.dDateTimeStart}</td>
           <td>${event.dDateTimeEnd}</td>
           <td>${event.iTimeComplete}</td>

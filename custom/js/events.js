@@ -3,8 +3,7 @@ $(() => {
   //bind event click view to show event history
   $('#btnShowEventHistoryData').click(showEventHistoryData);
   // set up time default when page onload 
-  formatToday();
-  
+  formatTodayEvent();
 })
 
 
@@ -47,11 +46,13 @@ function renderEventHistoryTable(data) {
         <th class="trn">Code</th>
         <th class="trn">Zone</th>
         <th class="trn">Name</th>
-        <th class="trn">Tiem Start</th>
-        <th class="trn">Time End</th>
+        <th class="trn">Date</th>
+        <th class="trn">Start</th>
+        <th class="trn">End</th>
         <th class="trn">Complete</th>
         <th class="trn">Current</th>
         <th class="trn">Distance</th>
+        <th class="trn"></th>
       </tr>
     `
   )
@@ -64,12 +65,17 @@ function renderEventHistoryTable(data) {
           <td>${event.sCheckingCode}</td>
           <td>${event.sZoneName}</td>
           <td>${event.sGuardName}</td>
+          <td>${event.dDateTimeIntinial}</td>
           <td>${event.dDateTimeStart}</td>
           <td>${event.dDateTimeEnd}</td>
           <td>${event.iTimeComplete}</td>
           <td>${event.iTimeCurrent}</td>
           <td>${event.dDistance}</td>
-          <td><button class="btn btn-custom bg-main-color btn-custom" style="text-transform: capitalize; font-size: 0.85em" onClick = "showEventHistoryDetails('${event.sCheckingCode}')">Details</button></td>
+          <td>
+            <button class="btn btn-custom bg-main-color btn-custom-small" style=" margin-top:-5px" onClick = "showEventHistoryDetails('${event.sCheckingCode}')">Map</button>
+            <button class="btn btn-custom bg-main-color btn-custom-small" style=" margin-top:-5px; margin-left: 5px" onClick = "showEventHistoryDetails('${event.sCheckingCode}')">Details</button>
+          </td>
+         
         </tr>
       `
     })
@@ -84,7 +90,7 @@ function renderEventHistoryTable(data) {
 
 
 //================ get events of today =================
-function formatToday() {
+function formatTodayEvent() {
   let now = new Date();
   let year = now.getFullYear();
   let month = now.getMonth() + 1;
@@ -182,3 +188,26 @@ function renderTableEventHistoryDetails(data){
   $table.append($thead).append($tbody);
 }
 //=====================================================
+
+function renderModalEditEventHistoryDetails(data){
+  $('#modalEventHistoryDetailsEdit').modal('show');
+}
+
+/* <td>
+  <div class="dropdown" style="font-size: 0.85em; margin-top:-5px" >
+    <button class="btn bg-main-color btn-custom dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Action
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <li class="dropdown-item">
+        <button class="btn btn-custom btn-info btn-block " onClick = "showEventHistoryDetails('${event.sCheckingCode}')" style="font-size:0.85em; text-transform: capitalize;">Details</button>
+      </li>
+      <li class="dropdown-item">
+        <button class="btn btn-custom btn-warning btn-block ">Edit</button>
+      </li>
+      <li class="dropdown-item">
+        <button class="btn btn-custom btn-danger btn-block ">Remove</button>
+      </li>
+    </ul>
+  </div>
+</td> */

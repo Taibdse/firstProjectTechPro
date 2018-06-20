@@ -1,3 +1,20 @@
+:root{
+  --bg-main-color: #293030;
+  --bg-main-color: #1e2d44;
+  --bg-main-color: #0b2628;
+  --bg-main-color: #002080;
+  --bg-main-color: #00134d;
+  --bg-main-color: #000d33;
+  /* --bg-main-color: #1e9099; */
+  /* --bg-main-color: #4eb256; */
+  /* /* --bg-main-color: #635808; */
+  /* --bg-main-color: #efd82f; */
+  /* --bg-main-color: #2fef45; */
+  /* --bg-main-color: #8b6e93; */
+  /* --bg-main-color: #9cd89f;  */
+
+}
+
 body{
   font-size: 0.9em !important;
 }
@@ -6,7 +23,7 @@ body{
   height: 16px;
 }
 .bg-main-color{
-  background-color: #293030 !important;
+  background-color: var(--bg-main-color) !important;
 }
 .card-guard .btn-group-custom .btn{
   font-size: 1em;
@@ -17,7 +34,7 @@ body{
 .navbar i{
   color: white;
 }
-.navbar *{
+.navbar * {
   color: white;
   font-weight: 600;
   font-size: 1em;
@@ -25,10 +42,13 @@ body{
 .navbar .nav-item:hover{
   background-color: skyblue;
 }
-.btn-custom{
-  margin-right: 5px;
+.btn-custom {
   font-size: 0.9em;
   padding: 7px 10px;
+}
+.btn-custom-small{
+  font-size: 0.85em;
+  text-transform: capitalize;
 }
 .input-custom{
   padding-top: 0px;
@@ -38,7 +58,6 @@ body{
   padding-top: 0px !important;
   padding-bottom: 0px !important;
 }
-
 .icon-custom{
   font-size: 2.2em;
   color: lightblue;
