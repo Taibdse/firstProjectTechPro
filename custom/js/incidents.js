@@ -55,11 +55,8 @@ function renderIncidentsTable(data) {
     `
   )
   if(data){
-    console.log(data);
-    let htmltBody = '';
     data.forEach(incident => {
-      htmltBody +=
-        `
+      $tbody.append(`
         <tr>
           <td>
             <input type="checkbox" class="checkbox-custom checkbox-incident">
@@ -74,12 +71,14 @@ function renderIncidentsTable(data) {
           </td>
           <td>${incident.sAlertDescription}</td>
           <td>
-            <button class="btn btn-custom bg-main-color" onClick="showMapIncident('${incident.sCheckingCode}')"> Map</button>
-        </td>
+            <button class="btn btn-custom bg-main-color btnShowIncidentMap"> Map</button>
+          </td>
         </tr>
-      `
+      `) 
+      $tbody.find('.btnShowIncidentMap').last().click(function(){
+        showMapIncident(incident)
+      })
     })
-    $tbody.html(htmltBody);
   } else {
     alert('No data');
   }
@@ -90,10 +89,6 @@ function renderIncidentsTable(data) {
 function showIncidentImage(urlImage){
   $('#incidentImg').attr({src: `http://115.79.27.219/tracking/${urlImage}`})
   $('#modalIncidentImage').modal('show');
-}
-
-function showMapIncident(checkingCode){
-  $('#modalmapViewIncident').modal('show');
 }
 
 function formatTodayIncident() {
@@ -108,4 +103,25 @@ function formatTodayIncident() {
   $('#incidentDatetime').val(`${mon}/${d}/${year}`);
 
   showIncidentsData();
+}
+
+function buildIncidentMap(incident){
+  let pos = [Number(incident.dAlertLat), Number(incident.dAlertLong)];
+  $mapArea = $('<div id="mapIncident" style="height: 300px"></div>');
+  $('#modalIncidentMap').find('.modal-body').html($mapArea);
+
+  var map = L.map('mapIncident').setView([20.81715284, 106.77411238], 14);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  L.marker(pos).addTo(map)
+      .bindPopup('')
+      .openPopup();
+}
+
+function showMapIncident(incident){
+  buildIncidentMap(incident);
+  $('#modalIncidentMap').modal('show');
 }

@@ -14,7 +14,9 @@ function renderMap(Guard, CheckPoints, Zone) {
       iconSize: [15, 15]
     }
   });
-
+  // images/marker-icon.png
+  // https://image.flaticon.com/icons/png/512/33/33622.png
+  // ../img/Checked.png
   var Checked = new LeafIcon({
        iconUrl: '../img/Checked.png'
     });
@@ -99,7 +101,7 @@ async function showMap() {
   let Guard = await getGuardInfo();
   let CheckPoints = await getCheckPointInfo();
   let Zone = await getZoneInfo();
-
+  
   renderMap(Guard, CheckPoints, Zone);
 }
 
@@ -108,7 +110,8 @@ async function getGuardInfo() {
     url: 'http://115.79.27.219/tracking/api/GPSGuardCurrent.php',
     method: 'post'
   });
-  // console.log(typeof JSON.parse(data));
+  console.log(data);
+  console.log(data);
   return data;
 }
 

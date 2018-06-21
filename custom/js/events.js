@@ -57,6 +57,7 @@ function renderEventHistoryTable(data) {
     `
   )
   if(data){
+    console.log(data)
     let htmltBody = '';
     data.forEach(event => {
       htmltBody +=
@@ -72,7 +73,7 @@ function renderEventHistoryTable(data) {
           <td>${event.iTimeCurrent}</td>
           <td>${event.dDistance}</td>
           <td>
-            <button class="btn btn-custom bg-main-color btn-custom-small" style=" margin-top:-5px" onClick = "showEventHistoryDetails('${event.sCheckingCode}')">Map</button>
+            <button class="btn btn-custom bg-main-color btn-custom-small" style=" margin-top:-5px" onClick = "showModalEventMap('${event.sCheckingCode}')">Map</button>
             <button class="btn btn-custom bg-main-color btn-custom-small" style=" margin-top:-5px; margin-left: 5px" onClick = "showEventHistoryDetails('${event.sCheckingCode}')">Details</button>
           </td>
          
@@ -191,6 +192,18 @@ function renderTableEventHistoryDetails(data){
 
 function renderModalEditEventHistoryDetails(data){
   $('#modalEventHistoryDetailsEdit').modal('show');
+}
+
+function renderModalEventMap(){
+  $('#modalEventMap').modal('show');
+}
+
+function showModalEventMap(){
+  $('#modalEventMap').modal('show');
+}
+
+function rendeEventMap(){
+  
 }
 
 /* <td>

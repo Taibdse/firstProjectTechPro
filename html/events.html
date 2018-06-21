@@ -193,44 +193,17 @@
     <div class="row">
       <div class="col-12">
         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
-          id="modalEventHistoryDetailsEdit">
+          id="modalEventMap">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Details</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Event Map</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <div class="table-responsive">
-                  <table class="table table-hover table-striped text-center custom-table" id="tblEventHistoryDetails">
-                    <form action="">
-                      <div class="row">
-                        <div class="col-6">
-                          <div class="form-group">
-                            <label for="">Guard name</label>
-                            <input type="text" class="form-control">
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div class="form-group">
-                            <label for="">Guard name</label>
-                            <input type="text" class="form-control">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-12">
-                          <div class="form-group">
-                            <label for="">Guard name</label>
-                            <input type="text" class="form-control">
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-                  </table>
-                </div>
+                <div id="eventMap"></div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>

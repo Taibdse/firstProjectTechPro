@@ -81,4 +81,8 @@ body{
 .card-body{
   padding: 5px !important;
 }
+.mymap{
+  height: 400px;
+  width: 100%;
+}
 
