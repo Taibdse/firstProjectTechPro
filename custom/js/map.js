@@ -63,7 +63,6 @@ function renderMap(Guard, CheckPoints, Zone) {
     }
   }
 
-
   for (var i = 0; i < CheckPoints.length; i++) {
     var lon = CheckPoints[i][0];
     var lat = CheckPoints[i][1];

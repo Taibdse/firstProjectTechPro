@@ -56,22 +56,24 @@ function renderIncidentsTable(data) {
   )
   if(data){
     data.forEach(incident => {
+      const { sGuardName, sZoneName, dDateTimeIntinial, dDateTimeStart, dDateTimeEnd, sAlertDescription, ImageUrl } = incident;
+      let img = `http://115.79.27.219/tracking/${ImageUrl}`;
       $tbody.append(`
         <tr>
           <td>
             <input type="checkbox" class="checkbox-custom checkbox-incident">
           </td>
-          <td>${incident.sGuardName}</td>
-          <td>${incident.sZoneName}</td>
-          <td>${incident.dDateTimeIntinial}</td>
-          <td>${incident.dDateTimeStart}</td>
-          <td>${incident.dDateTimeEnd}</td>
+          <td>${sGuardName}</td>
+          <td>${sZoneName}</td>
+          <td>${dDateTimeIntinial}</td>
+          <td>${dDateTimeStart}</td>
+          <td>${dDateTimeEnd}</td>
           <td>
-            <img src="http://115.79.27.219/tracking/${incident.ImageUrl}" alt="Image here" style="width:60px; height: 80px" onClick="showIncidentImage('${incident.ImageUrl}')">
+            <img src="${img}" alt="Image here" style="width:60px; height: 80px" onClick="showIncidentImage('${img}')">
           </td>
-          <td>${incident.sAlertDescription}</td>
+          <td>${sAlertDescription}</td>
           <td>
-            <button class="btn btn-custom bg-main-color btnShowIncidentMap"> Map</button>
+            <button class="btn btn-custom bg-main-color btnShowIncidentMap btn-custom-small"> Map</button>
           </td>
         </tr>
       `) 
@@ -87,7 +89,7 @@ function renderIncidentsTable(data) {
 }
 
 function showIncidentImage(urlImage){
-  $('#incidentImg').attr({src: `http://115.79.27.219/tracking/${urlImage}`})
+  $('#incidentImg').attr({src: `${urlImage}`})
   $('#modalIncidentImage').modal('show');
 }
 
@@ -117,7 +119,7 @@ function buildIncidentMap(incident){
   }).addTo(map);
 
   L.marker(pos).addTo(map)
-      .bindPopup('')
+      .bindPopup('This is popup')
       .openPopup();
 }
 

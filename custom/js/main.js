@@ -28,6 +28,7 @@ async function showGuardInfo() {
 
 function renderJcombobox(data) {
   let html = '';
+  html += '<option value="0">All</option>';
   if (data) {
     data.forEach(guard => {
       html += `<option value="${guard.iGuardId}">${guard.sGuardName}</option>`
@@ -49,44 +50,42 @@ function renderGuardTable(data) {
       <th class="trn">Name</th>
       <th class="trn">Last Visted</th>
       <th class="trn">Speed</th>
+      <th class="trn">Status</th>
     </tr>
   `
   )
   if (data) {
-    let htmltBody = '';
     data.forEach(guard => {
-      htmltBody +=
-        `
+      const {iGuardId, sGuardName, dLastUpdateTime, dSpeedCurrent, bOnline} = guard
+      let className = '';
+      if(bOnline == 'SOS') className = 'red-text';
+      if(bOnline == 'Online') className = 'green-text';
+      $tbody.append(`
         <tr>
-          <td>${guard.iGuardId}</td>
-          <td>${guard.sGuardName}</td>
-          <td>${guard.dLastUpdateTime}</td>
-          <td>${guard.dSpeedCurrent}</td>
+          <td>${iGuardId}</td>
+          <td>${sGuardName}</td>
+          <td>${dLastUpdateTime}</td>
+          <td>${dSpeedCurrent}</td>
+          <td class="${className}">${bOnline}</td>
         </tr>
-      `
+      `)
     })
-    $tbody.html(htmltBody);
   }
 
   $table.append($thead).append($tbody);
 }
 
-async function getEvensData() {
+async function getEventsData() {
   let data = await $.ajax({
     url: 'http://115.79.27.219/tracking/api/GetEvent.php',
     method: 'post'
   });
   if (data.indexOf('<') > -1) return null;
-
+  
   return JSON.parse(data);
 }
 
-async function showEventsInfo() {
-  let data = await getEvensData();
-  if (data) renderEventHistoryTable(data);
-}
-
-function renderEventHistoryTable(data) {
+function renderEventsTable(data) {
   let $table = $('#tblEvents')
   $table.html('');
   let $thead = $('<thead></thead>');
@@ -108,10 +107,8 @@ function renderEventHistoryTable(data) {
   `
   )
   if (data) {
-    let htmltBody = '';
     data.forEach(event => {
-      htmltBody +=
-        `
+      $tbody.append(`
         <tr>
           <td>${event.sCheckingCode}</td>
           <td>${event.sZoneName}</td>
@@ -123,10 +120,15 @@ function renderEventHistoryTable(data) {
           <td>${event.iTimeCurrent}</td>
           <td>${event.dDistance}</td>
         </tr>
-      `
+      `)
     })
-    $tbody.html(htmltBody);
   }
 
   $table.append($thead).append($tbody);
 }
+
+async function showEventsInfo() {
+  let data = await getEventsData();
+  if (data) renderEventsTable(data);
+}
+

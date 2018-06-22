@@ -1,12 +1,13 @@
 $(() => {
 
   $('#btnPointsData').click(showPointsData);
+  $('#btnMapAllPoints').click(showMapAllPoints)
   showAllZones();
   
 })
 
 const arrNewAddedPoints = [];
-
+const arrPoints = [];
 async function getAllZoneId() {
   let data = await $.ajax({
     url: 'http://115.79.27.219/tracking/api/GetZone.php',
@@ -42,7 +43,11 @@ async function getPointsData() {
       method: 'post',
       data: JSON.stringify(sentData)
     });
-    if (data) return JSON.parse(data);
+    if (data) {
+      arrPoints.length = 0;
+      JSON.parse(data).forEach(item => arrPoints.push(item));
+      return JSON.parse(data);
+    }
     return null;
   }
 }
@@ -75,7 +80,7 @@ function renderPointsTable(data) {
           <td>${point.dPointLat}</td>
           <td>${point.dPointLong}</td>
           <td>${point.dDateTimeAdd}</td>
-          <td><button class="btn btn-custom bg-main-color btnPointMap">Map</button></td>
+          <td><button class="btn btn-custom bg-main-color btnPointMap btn-custom-small">Map</button></td>
         </tr>
       `)
       $tbody.find('.btnPointMap').last().click(function(){
@@ -136,4 +141,8 @@ function showPointMap(point){
 async function showPointsData() {
   let data = await getPointsData();
   renderPointsTable(data);
+}
+
+function showMapAllPoints(){
+
 }
