@@ -42,6 +42,20 @@ body{
 .navbar .nav-item:hover{
   background-color: skyblue;
 }
+
+.navbar .dropdown-menu {
+  background-color: var(--bg-main-color); 
+}
+
+.navbar .dropdown-menu .dropdown-item {
+  color: white !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+}
+.navbar .dropdown-menu .dropdown-item:hover{
+  background-color: skyblue;
+}
+
 .btn-custom {
   font-size: 0.9em;
   padding: 7px 10px;

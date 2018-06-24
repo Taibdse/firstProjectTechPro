@@ -2,10 +2,14 @@
 $(() => {
 
   $('#btnIncidentsData').click(showIncidentsData);
-
+  $('#btnIncidentsMap').click(function(){
+    showMapIncident(arrIncidents);
+  })
   formatTodayIncident();
 
 })
+
+const arrIncidents = [];
 
 async function showIncidentsData() {
   let datetime = $('#incidentDatetime').val();
@@ -15,21 +19,18 @@ async function showIncidentsData() {
   renderIncidentsTable(data);
 }
 
-function changeFormatDateTime(time){
-  let arr = time.split('/');
-  let y = arr[2];
-  let d = arr[1];
-  let m = arr[0];
-  return `${y}-${m}-${d}`;
-}
-
 async function getIncidentsData(sentData) {
   let data = await $.ajax({
     url: 'http://115.79.27.219/tracking/api/GetIncidentData.php',
     method: 'post',
     data: sentData
   });
-  if (data) return JSON.parse(data);
+  if (data) {
+    let arrData = JSON.parse(data);
+    arrIncidents.length = 0;
+    arrData.forEach(item => arrIncidents.push(item));
+    return arrData;
+  }
   return null;
 }
 
@@ -78,7 +79,7 @@ function renderIncidentsTable(data) {
         </tr>
       `) 
       $tbody.find('.btnShowIncidentMap').last().click(function(){
-        showMapIncident(incident)
+        showMapIncident([incident])
       })
     })
   } else {
@@ -94,36 +95,47 @@ function showIncidentImage(urlImage){
 }
 
 function formatTodayIncident() {
-  let now = new Date();
-  let year = now.getFullYear();
-  let month = now.getMonth() + 1;
-  let day = now.getDate();
-
-  let mon = month < 10 ? `0${month}` : month;
-  let d = day < 10 ? `0${day}` : day;
- 
-  $('#incidentDatetime').val(`${mon}/${d}/${year}`);
-
+  $('#incidentDatetime').val(formatToday());
   showIncidentsData();
 }
 
-function buildIncidentMap(incident){
-  let pos = [Number(incident.dAlertLat), Number(incident.dAlertLong)];
-  $mapArea = $('<div id="mapIncident" style="height: 300px"></div>');
+function buildIncidentMap(incidents){
+  $mapArea = $('<div id="mapIncident" style="height: 350px"></div>');
   $('#modalIncidentMap').find('.modal-body').html($mapArea);
 
   var map = L.map('mapIncident').setView([20.81715284, 106.77411238], 14);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
+    id: 'Techpro'
   }).addTo(map);
 
-  L.marker(pos).addTo(map)
-      .bindPopup('This is popup')
-      .openPopup();
+  L.icon = function (options) {
+    return new L.Icon(options);
+  };
+
+  var LeafIcon = L.Icon.extend({
+    options: {
+      iconSize: [15, 15]
+    }
+  });
+
+  let Error = new LeafIcon({
+    iconUrl: '../img/error.png'
+  });
+  
+  incidents.forEach(incident => {
+    const { dAlertLat, dAlertLong } = incident
+    let pos = [Number(dAlertLat), Number(dAlertLong)];
+    L.marker(pos, {
+      icon: Error
+    }).addTo(map)
+    .bindPopup(`Hello`)
+    .openPopup();
+  })
 }
 
-function showMapIncident(incident){
-  buildIncidentMap(incident);
+function showMapIncident(incidents){
+  buildIncidentMap(incidents);
   $('#modalIncidentMap').modal('show');
 }

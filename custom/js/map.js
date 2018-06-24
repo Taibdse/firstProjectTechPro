@@ -1,7 +1,7 @@
 
 showMap()
 
-function renderMap(Guard, CheckPoints, Zone) {
+function renderMap(Guard) {
   var mymap = L.map('mapid').setView([20.81715284, 106.77411238], 14);
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
@@ -14,9 +14,7 @@ function renderMap(Guard, CheckPoints, Zone) {
       iconSize: [15, 15]
     }
   });
-  // images/marker-icon.png
-  // https://image.flaticon.com/icons/png/512/33/33622.png
-  // ../img/Checked.png
+
   var Checked = new LeafIcon({
        iconUrl: '../img/Checked.png'
     });
@@ -62,46 +60,12 @@ function renderMap(Guard, CheckPoints, Zone) {
       }).addTo(mymap);
     }
   }
-
-  for (var i = 0; i < CheckPoints.length; i++) {
-    var lon = CheckPoints[i][0];
-    var lat = CheckPoints[i][1];
-    var message = CheckPoints[i][2];
-    var imgurl = CheckPoints[i][3];
-    var checkedpoint = CheckPoints[i][5];
-    
-    if (checkedpoint == 1) {
-      message = message + "<br> <center><img src='" + imgurl +
-        "' alt = '' style='width:200px;height:200px;'></center>";
-      L.marker([lon, lat], {
-        icon: Checked
-      }).bindTooltip(message).addTo(mymap);
-    } else if (checkedpoint == 2) {
-      message = message + "<br> <center><img src='" + imgurl +
-        "' alt = '' style='width:200px;height:200px;'></center>";
-      L.marker([lon, lat], {
-        icon: None
-      }).bindTooltip(message).addTo(mymap);
-    } else if (checkedpoint == 3) {
-      L.marker([lon, lat], {
-        icon: Waiting
-      }).addTo(mymap);
-    } else if (checkedpoint == 4) {
-      message = message + "<br> <center><img src='" + imgurl +
-        "' alt = '' style='width:200px;height:200px;'></center>";
-      L.marker([lon, lat], {
-        icon: Error
-      }).bindTooltip(message).addTo(mymap);
-    }
-  }
 }
 
 async function showMap() {
   let Guard = await getGuardInfo();
-  let CheckPoints = await getCheckPointInfo();
-  let Zone = await getZoneInfo();
-  
-  renderMap(Guard, CheckPoints, Zone);
+
+  renderMap(Guard);
 }
 
 async function getGuardInfo() {
@@ -109,8 +73,6 @@ async function getGuardInfo() {
     url: 'http://115.79.27.219/tracking/api/GPSGuardCurrent.php',
     method: 'post'
   });
-  console.log(data);
-  console.log(data);
   return data;
 }
 

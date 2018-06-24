@@ -6,14 +6,22 @@ $(() => {
   
 })
 
+// modalInsertPoints
+
 const arrNewAddedPoints = [];
 const arrPoints = [];
+const arrZones = [];
+
 async function getAllZoneId() {
   let data = await $.ajax({
     url: 'http://115.79.27.219/tracking/api/GetZone.php',
     method: 'post',
   });
-  if (data) return data;
+  if (data) {
+    arrZones.length = 0;
+    JSON.parse(data).forEach(zone => arrZones.push(zone));
+    return data;
+  }
   return null;
 }
 
@@ -143,6 +151,8 @@ async function showPointsData() {
   renderPointsTable(data);
 }
 
-function showMapAllPoints(){
-
+function insertPoint(){
+  
 }
+
+function showMapAllPoints(){}
