@@ -1,33 +1,23 @@
 $(() => {
 
   $('#btnPointsData').click(showPointsData);
-  $('#btnMapAllPoints').click(showMapAllPoints)
+  $('#btnMapAllPoints').click(function(){
+    showPointsMap()
+  })
+  $('#btnInsertPoint').click(showInsertPointModal);
+  $('#btnUpdatePoint').click(updatePoint);
   showAllZones();
   
 })
 
-// modalInsertPoints
-
 const arrNewAddedPoints = [];
-const arrPoints = [];
+const arrCurrentPoints = [];
 const arrZones = [];
-
-async function getAllZoneId() {
-  let data = await $.ajax({
-    url: 'http://115.79.27.219/tracking/api/GetZone.php',
-    method: 'post',
-  });
-  if (data) {
-    arrZones.length = 0;
-    JSON.parse(data).forEach(zone => arrZones.push(zone));
-    return data;
-  }
-  return null;
-}
+let currentUpdatedPoint = null;
 
 async function showAllZones() {
-  let data = await getAllZoneId();
-  renderZoneOnJcombobox(JSON.parse(data));
+  let data = await Service.getAllZones();
+  renderZoneOnJcombobox(data);
   showPointsData();
 }
 
@@ -37,26 +27,6 @@ function renderZoneOnJcombobox(data) {
     data.forEach(zone => {
       $('#jcomboboxZone').append(`<option value="${zone.iZoneID}">${zone.sZoneName}</option>`)
     })
-  }
-}
-
-async function getPointsData() {
-  let zoneID = $('#jcomboboxZone').val();
-  if (zoneID) {
-    let sentData = {
-      iZoneID: zoneID
-    };
-    let data = await $.ajax({
-      url: 'http://115.79.27.219/tracking/api/GetPointData.php',
-      method: 'post',
-      data: JSON.stringify(sentData)
-    });
-    if (data) {
-      arrPoints.length = 0;
-      JSON.parse(data).forEach(item => arrPoints.push(item));
-      return JSON.parse(data);
-    }
-    return null;
   }
 }
 
@@ -71,6 +41,7 @@ function renderPointsTable(data) {
     `
       <tr>
         <th class="trn">Zone</th>
+        <th class="trn">ID</th>
         <th class="trn">Code</th>
         <th class="trn">Lat</th>
         <th class="trn">Long</th>
@@ -81,18 +52,26 @@ function renderPointsTable(data) {
   )
   if (data) {
     data.forEach(point => {
+      const {sZoneName, sPointCode, dPointLat, dPointLong, dDateTimeAdd, iPointID} = point;
       $tbody.append(`
         <tr>
-          <td>${point.sZoneName}</td>
-          <td>${point.sPointCode}</td>
-          <td>${point.dPointLat}</td>
-          <td>${point.dPointLong}</td>
-          <td>${point.dDateTimeAdd}</td>
-          <td><button class="btn btn-custom bg-main-color btnPointMap btn-custom-small">Map</button></td>
+          <td>${sZoneName}</td>
+          <td>${iPointID}</td>
+          <td>${sPointCode}</td>
+          <td>${dPointLat}</td>
+          <td>${dPointLong}</td>
+          <td>${dDateTimeAdd}</td>
+          <td>
+            <button class="btn btn-custom bg-main-color btnPointUpdate btn-custom-small">Update</button>
+            <button class="btn btn-custom bg-main-color btnPointDelete btn-custom-small" style="margin-left:-5px">In aciive</button>
+          </td>
         </tr>
       `)
-      $tbody.find('.btnPointMap').last().click(function(){
-        showPointMap(point);
+      $tbody.find('.btn.btnPointUpdate').last().click(function(){
+        showUpdatePointModal(point);
+      })
+      $tbody.find('.btn.btnPointDelete').last().click(function(){
+        inActivePoint(point);
       })
     })
   }
@@ -100,9 +79,8 @@ function renderPointsTable(data) {
   $table.append($thead).append($tbody);
 }
 
-function buildPointMap(point){
-  let pos = [Number(point.dPointLat), Number(point.dPointLong)];
-  const map = L.map('mapPoint').setView([20.81715284, 106.77411238], 14);
+function buildPointsMap(points, id){
+  var map = L.map(id).setView([20.81715284, 106.77411238], 14);
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
@@ -118,41 +96,119 @@ function buildPointMap(point){
     iconUrl: '../img/Checked.png'
   });
 
-  L.marker(pos, { icon: Checked }).addTo(map)
-  .bindPopup(`Lat: ${point.dPointLat},\n Lng: ${point.dPointLong}`)
-  .openPopup();
-
+  //handle click
   let popup = L.popup();
   map.on('click', function(e){
     handleClickPointMap(e, popup, map, L);
   });
+
+  //show all points
+  if(points){
+    points.forEach(point => {
+      let mes = `Lat: ${point.dPointLat},\n Lng: ${point.dPointLong}`;
+      let pos = [Number(point.dPointLat), Number(point.dPointLong)];
+      L.marker(pos, {
+        icon: Checked
+      }).bindTooltip(mes, {
+        permanent: true,
+        interactive: true
+      }).addTo(map);
+      // L.marker(pos, { icon: Checked }).addTo(map)
+      // .bindPopup(`Lat: ${point.dPointLat},\n Lng: ${point.dPointLong}`)
+      // .openPopup();
+    })
+  }
 }
 
 function handleClickPointMap(e, popup, map, L){
   const {lat, lng} = e.latlng;
-  arrNewAddedPoints.push([lat, lng]);
-  console.log(arrNewAddedPoints);
-  let polygon = L.polyline(arrNewAddedPoints, {color: 'red'}).addTo(map);
+  //arrNewAddedPoints.push([lat, lng]);
+  $('.latPoint').text(lat);  
+  $('.longPoint').text(lng);  
+  // let polygon = L.polyline(arrNewAddedPoints, {color: 'red'}).addTo(map);
   // popup
   //   .setLatLng(e.latlng)
   //   .setContent("You clicked the map at " + e.latlng.toString())
   //   .openOn(mymap);
 }
 
-function showPointMap(point){
-  let $mapArea = $('<div id="mapPoint" class="mymap"></div>'); 
+function showPointsMap(){
+  let $mapArea = $('<div id="mapPoint" class="mymap" style="height:400px"></div>'); 
   $('#modalMapPoint').find('.modal-body').html($mapArea);
-  buildPointMap(point);
+  buildPointsMap(arrCurrentPoints, 'mapPoint');
   $('#modalMapPoint').modal('show');
 }
 
 async function showPointsData() {
-  let data = await getPointsData();
-  renderPointsTable(data);
+  let zoneId = $('#jcomboboxZone').val();
+  if(zoneId){
+    let sentData = { iZoneID: zoneId };
+    let data = await Service.getPointsDataOnZone(sentData);
+    renderPointsTable(data);
+  }
 }
 
-function insertPoint(){
+function showInsertPointModal(){
+  let $mapArea = $('<div id="mapPointInsert" class="mymap"></div>'); 
+  $('#insertPointMap').html($mapArea);
+  buildPointsMap([], 'mapPointInsert');
+  $('#modalInsertPoint').modal('show');
+}
+
+function showUpdatePointModal(point){
+  const {iPointID, sPointCode, sZoneName, dPointLat, dPointLong, dDateTimeAdd} = point
+  currentUpdatedPoint = point;
+  let $mapArea = $('<div id="mapPointUpdate" class="mymap"></div>'); 
+  $('#updatePointMap').html($mapArea);
+  buildPointsMap([point], 'mapPointUpdate');
+
+  let lat = Number(dPointLat);
+  let lng = Number(dPointLong);
+  $('#txtUpdatepointCode').val(sPointCode);
+  if(lat == 0 && lng == 0){
+    $('#latUpdatePoint').text('');
+    $('#longUpdatePoint').text('');
+    currentUpdatedPoint.GPS = false;
+  }else{
+    $('#latUpdatePoint').text(dPointLat);
+    $('#longUpdatePoint').text(dPointLong);
+    currentUpdatedPoint.GPS = true;
+  }
+  $('#modalUpdatePoint').modal('show');
+}
+
+function inActivePoint(point){
+  //delete point here
+
   
+  console.log(point);
+  let sentData = {}
 }
 
-function showMapAllPoints(){}
+async function updatePoint(){
+  let { iPointID, iZoneID, GPS } = currentUpdatedPoint;
+  let lat = Number($('#latUpdatePoint').text());
+  let lng = Number($('#longUpdatePoint').text());
+  let pointCode = $('#txtUpdatepointCode').val();
+  let sentData = '';
+  if(!GPS){
+    sentData = { 
+      bStatusIN: 2, 
+      dGPSLatIN: 0, 
+      dGPSLongIN: 0, 
+      sPointCodeIN: pointCode, 
+      iPointIDIN: iPointID, 
+      iZoneIDIN: iZoneID
+    };
+  }else{
+    sentData = { 
+      bStatusIN: 3, 
+      dGPSLatIN: lat, 
+      dGPSLongIN: lng, 
+      sPointCodeIN: pointCode, 
+      iPointIDIN: iPointID, 
+      iZoneIDIN: iZoneID 
+    };
+  }
+  let response = await Service.updatePoint(sentData);
+}

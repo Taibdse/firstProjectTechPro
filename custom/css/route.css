@@ -1,0 +1,11 @@
+.card{
+  height: 500px !important;
+}
+.card-points ul{
+  height: 350px; 
+  overflow: auto;
+}
+.alert{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}

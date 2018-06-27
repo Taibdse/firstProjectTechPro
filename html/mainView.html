@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datepicker3.min.css">
 
   <!-- leaflet css -->
-  <link rel="stylesheet" href="../plugins/leaflet/css/leaflet.css">
+  <link rel="stylesheet" href="../plugins/leaflet/css/leaflet (1).css">
 
   <!-- bootstrap datetime picker css -->
   <link rel="stylesheet" href="../plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
@@ -86,6 +86,7 @@
               <a class="dropdown-item" href="points.html">Points</a>
               <a class="dropdown-item" href="guard.html">Guard</a>
               <a class="dropdown-item" href="zone.html">Zone</a>
+              <a class="dropdown-item" href="route.html">Route</a>
             </div>
           </li>
         </ul>
@@ -121,7 +122,7 @@
       </div>
       <div class="col-lg-8">
         <!-- card map start -->
-        <div class="card card-map">
+        <div class="card card-map-guard">
           <!-- card header -->
           <div class="card-header bg-main-color custom-card-header">
             <div class="row">
@@ -132,8 +133,6 @@
           </div>
           <!-- card body map -->
           <div class="card-body custom-card-body">
-
-            <div class="map" id="mapid" style="height: 350px"></div>
 
           </div>
         </div>
@@ -217,38 +216,25 @@
   <!-- datetimepicker js -->
   <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
+  <!-- service request -->
+  <script src="../custom/js/service.js"></script>
+
+  <!-- map js -->
+  <script src="../custom/js/map.js"></script>
+
   <!-- custom main.js -->
   <script src="../custom/js/main.js"></script>
 
   <!-- translate js -->
   <script src="../custom/js/translate.js"></script>
 
+  <!-- mainView js -->
+  <script src="../custom/js/mainView.js"></script>
+
   <!-- leaflet js -->
   <script src="../plugins/leaflet/js/leaflet.js"></script>
 
-  <!-- map js -->
-  <script src="../custom/js/map.js"></script>
-
-  <script>
-    let sGuardNameIN = 'Ta Van Manh';
-    let sGuardPhone = '12456789';
-    let sGuardUsername = 'Ta Manh'
-    let sGuardPassword = '123456'
-    let iGuardIDIN = 0;
-    let bStatusIN = 1;
-
-    const sentData = {
-      sGuardNameIN,
-      sGuardPhone,
-      sGuardUsername,
-      sGuardPassword,
-      iGuardIDIN,
-      bStatusIN
-    };
-
-    console.log(JSON.stringify(sentData));
-  </script>
-
+ 
 </body>
 
 </html>

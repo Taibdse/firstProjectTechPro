@@ -1,0 +1,131 @@
+const APP_DOMAIN = 'http://115.79.27.219/tracking/api/';
+
+class Service {
+  static async getAllZones() {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}GetZone.php`,
+      method: 'post',
+    });
+    let parsedData = JSON.parse(data);
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  static async getEventsData() {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}GetEvent.php`,
+      method: 'post'
+    });
+    let parsedData = JSON.parse(data);
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  static async getGuardsData() {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}GetGuard.php`,
+      method: 'post'
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  static async getPointsDataOnZone(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}GetPointData.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    let parsedData = JSON.parse(data);
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  static async getReportData(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}ReportGuard.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    })
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  static async getIncidentsData(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}GetIncidentData.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  static async getEventHistoryData(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}GetEventHistory.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  static async getEventHistoryDetails(checkingCode) {
+    let sentDate = {
+      CheckingCode: checkingCode
+    };
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}GetEventHistoryDetail.php`,
+      method: 'post',
+      data: JSON.stringify(sentDate)
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  static async getAssetsData(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}GetAssetData.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  static async updatePoint(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}UpdatePoint.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  static async inActivePoint(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}InactivePoint.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+  
+
+}

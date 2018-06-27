@@ -7,16 +7,6 @@ $(() => {
   formatTodayAssets();
 })
 
-async function getAssetsData(sentData) {
-  let data = await $.ajax({
-    url: 'http://115.79.27.219/tracking/api/GetAssetData.php ',
-    method: 'post',
-    data: sentData
-  });
-  if (data) return JSON.parse(data);
-  return null;
-}
-
 function renderAssetsTable(data) {
   let $table = $('#tblAssets');
   $table.html('');
@@ -65,7 +55,8 @@ async function showAssetsData() {
   let datetime = $('#assetDatetime').val();
   if(datetime == '') return alert('No datetime');
   let sentData = {dDateTime : changeFormatDateTime(datetime)};
-  let data = await getAssetsData(JSON.stringify(sentData));
+  let data = await Service.getAssetsData(sentData);
+  console.log(data);
   renderAssetsTable(data);
 }
 

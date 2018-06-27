@@ -1,4 +1,4 @@
-  
+
     $(() => {
 
       $('#btnViewReport').click(showReportData);
@@ -35,15 +35,6 @@
   const arrReportCal = [1, 2, 3, 4, '5=4:1', '6=3+5', '7=6:2', 8, '9=8:3', 10, '11=6:3', '', '12=7*9*11', 13, 14, 15, 16, 17, 18, 19];
 
   const arrPropsReport = ['iTime_per_Route', 'iExpected_Executed_Routes', 'iActual_Executed_Routes', 'iTime_spent_on_resolving_non_conformities', 'iMissed_routes_due_to_resolving_non_conformities', 'iCorrected_Executed_Routes', 'dPerformance_Routes', 'iSuccessful_routes_within_time_schedule', 'dPerformance_Timing', 'iSuccessful_routes_with_correct_routing', 'dPerformance_Routing', 'iRouting_Mistakes', 'dOverall_performance', 'iNumber_of_reports_issued', 'iActual_Patrolling_Time', 'iAllowed_Interval_between_trip', 'iTotal_patroling_time_in_minutes', 'dPerfomance_Time', 'iTotal_Idling_Time', 'dIdling_Time_in'];
-
-  async function getReportData(sentData){
-    let data = await $.ajax({
-      url:'http://115.79.27.219/tracking/api/ReportGuard.php',
-      method:'post',
-      data:JSON.stringify(sentData)
-    })
-    return data;
-  }
 
   // changeFormatDateTime
 
@@ -89,7 +80,7 @@
     if(time == '') return alert('No date time submitted');
     let dDateTime = changeFormatDateTime(time);
     let sentData = {GuardID, dDateTime}
-    const data = await getReportData(sentData);
+    const data = await Service.getReportData(sentData);
     renderReportTable(JSON.parse(data));
   }
 
@@ -102,7 +93,7 @@
   }
 
   async function showGuardReportPage(){
-    const data = await getGuardsData();
+    const data = await Service.getGuardsData();
     renderGuardCombobox(data);
   }
 

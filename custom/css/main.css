@@ -28,6 +28,10 @@ body{
 .card-guard .btn-group-custom .btn{
   font-size: 1em;
 }
+nav.navbar{
+  padding-top: 0; 
+  padding-bottom: 0
+}
 .navbar .icon-navbar{
   font-size: 1.2em;
 }
@@ -99,6 +103,9 @@ body{
 .mymap{
   height: 400px;
   width: 100%;
+}
+.dropdown-menu{
+  z-index: 10000;
 }
 
 
