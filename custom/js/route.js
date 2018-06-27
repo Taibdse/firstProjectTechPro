@@ -20,16 +20,23 @@ $(() => {
     $('#selectedPointsOnRoute').html('');
     showRouteMap(null);
   }) 
+  $('#btnSaveSelectedPoints').click(saveRoute);
+  $('#selectZonesFilter').change(showRoutesOnTable);
+  $('#modalUpdateRouteGuard').find('.btn.btnSaveRouteUpdateGuard').click(updateGuardRoute);
   showRouteMap();
   showAllZones();
   showPointsOnZone();
+  showRoutesOnTable();
+  showGuardIdOnCombobox();
+  showZonesOnJcomboboxFilter();
 })
 
 var arrSelectedPointsOnRoute = [];
 var arrPointsOnZone = [];
+var currentUpdatedRoute = null;
 
 function buildRouteMap(data){
-  let $mapArea = $('<div id="routeMap" style="width:100%; height: 450px"></div>');
+  let $mapArea = $('<div id="routeMap" class="map"></div>');
   $('.card-route-map').find('.card-body').html($mapArea);
   var mymap = L.map('routeMap').setView([20.81715284, 106.77411238], 14);
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -94,12 +101,26 @@ function showRouteMap(data){
 }
 
 function renderZoneOnJcombobox(data) {
-  $('#selectRouteZone').html('');
+  $('.selectZones').html('');
   if (data) {
     data.forEach(zone => {
-      $('#selectRouteZone').append(`<option value="${zone.iZoneID}">${zone.sZoneName}</option>`)
+      $('.selectZones').append(`<option value="${zone.iZoneID}">${zone.sZoneName}</option>`)
     })
   }
+}
+
+function renderZoneOnJcomboboxFilter(data) {
+  $('#selectZonesFilter').html('');
+  $('#selectZonesFilter').append(`<option value="0">All</option>`)
+  if (data) {
+    data.forEach(zone => {
+      $('#selectZonesFilter').append(`<option value="${zone.iZoneID}">${zone.sZoneName}</option>`)
+    })
+  }
+}
+async function showZonesOnJcomboboxFilter(){
+  let data = await Service.getAllZones();
+  renderZoneOnJcomboboxFilter(data);
 }
 
 async function showAllZones(){
@@ -188,14 +209,120 @@ function renderListOfSelectedPoints(selectedPoints){
   }
 }
 
-// let sentData = {
-//   RouteID: 1,
-//   RouteName:'name 1'
-//   Points: [
-//     {id: 89, pos: 1},
-//     {id: 78, pos: 2},
-//     {id: 56, pos: 3},
-//     {id: 45, pos: 4},
-//     {id: 34, pos: 5},
-//   ]
+async function saveRoute(){
+  let RouteName = $('#txtSaveRouteName').val();
+  let arrPoints = arrSelectedPointsOnRoute.map((p, index) => {
+    const { iPointID } = p;
+    return {PointID: iPointID, No: index + 1}
+  })
+  let sentData = {RouteID: 0, RouteName, bStatusIN: 1, Point: arrPoints };
+  console.log(JSON.stringify(sentData));
+  let response = await Service.saveRoute(sentData);
+  console.log(response);
+}
+
+async function deleteRoute(routeId){
+  let RouteName = $('#txtSaveRouteName').val();
+  // let arrPoints = arrSelectedPointsOnRoute.map((p, index) => {
+  //   const { iPointID } = p;
+  //   return {PointID: iPointID, No: index + 1}
+  // })
+  let sentData = { RouteID: routeId, RouteName, bStatusIN: 2, Point: 0 };
+  let response = await Service.deleteRoute(sentData);
+  console.log(response);
+}
+
+async function showRoutesOnTable(){
+  let zoneId = $('#selectZonesFilter').val();
+  if(!zoneId) zoneId = 0;
+  let sentData = { iZoneIDIN: zoneId };
+  let routes = await Service.getRoutesOnZone(sentData);
+  console.log(routes);
+  renderTableRoutes(routes);
+}
+
+function renderTableRoutes(routes){
+  let $table = $('#tblRoutes');
+  $table.html('');
+  let $thead = $('<thead></thead>');
+  let $tbody = $('<tbody></tbody>');
+
+  $thead.html(
+    `
+      <tr>
+        <th class="trn">ZoneId</th>
+        <th class="trn">Route name</th>
+        <th class="trn">RouteId</th>
+        <th class="trn">Distance</th>
+        <th class="trn">DateTimeUpdate</th>
+        <th class="trn">TimeComplete</th>
+        <th class="trn">Active</th>
+        <th class="trn">GuardID</th>
+        <th class="trn"></th>
+      </tr>
+    `
+  )
+  if (routes) {
+    routes.forEach(route => {
+      const { bActive, dDateTimeUpdate, dDistance, iGuardID, iRouteID, iTimeComplete, iZoneID, sRouteName } = route;
+      $tbody.append(`
+        <tr>
+          <td>${iZoneID}</td>
+          <td>${sRouteName}</td>
+          <td>${iRouteID}</td>
+          <td>${dDistance}</td>
+          <td>${dDateTimeUpdate}</td>
+          <td>${iTimeComplete}</td>
+          <td>${bActive}</td>
+          <td>${iGuardID}</td>
+          <td>
+            <button class="btn btn-custom bg-main-color btnRouteUpdateGuard btn-custom-small">Update</button>
+          </td>
+        </tr>
+      `)
+      $tbody.find('.btn.btnRouteUpdateGuard').last().click(function(){
+        showUpdateRouteGuardModal(route);
+      })
+    })
+  }
+
+  $table.append($thead).append($tbody);
+}
+
+function showUpdateRouteGuardModal(route){
+  const { iGuardID, iRouteID, iZoneID, sRouteName } = route;
+  currentUpdatedRoute = route;
+  $('#modalUpdateRouteGuard').find('.listUpdatedRoute').text(`${sRouteName} - ${iRouteID} on zone ${iZoneID}`);
+  $('#modalUpdateRouteGuard').find('.currentGuard').text(`Current guard id: ${iGuardID}`);
+  $('#modalUpdateRouteGuard').modal('show');
+}
+
+async function showGuardIdOnCombobox(){
+  let guards = await Service.getPersonalGuardsInfo();
+  $('.selectGuards').html('');
+  console.log(guards)
+  guards.forEach(guard => {
+    const { iGuardID, sGuardName } = guard;
+    $('.selectGuards').append(`<option value="${iGuardID}">${sGuardName}</option>`)
+  })
+}
+
+async function updateGuardRoute(){
+  let guardId = $('#modalUpdateRouteGuard').find('.selectGuards').val();
+  let sentData = { iGuardIDIN: guardId, iRouteIDIN: currentUpdatedRoute.iRouteID };
+  console.log(JSON.stringify(sentData));
+  let response = await Service.updateRouteGuard(sentData);
+  showRoutesOnTable();
+  console.log(response);
+}
+
+// {
+//   "RouteID": "1",
+//   "RouteName": "Route 1",
+//   "bStatusIN":"1",
+//     "Point": [
+//       {"PointID": "100", "No": "1"},
+//       {"PointID": "101", "No": "2"},
+//       {"PointID": "102", "No": "3"}
+//     ]
 // }

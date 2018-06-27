@@ -107,7 +107,7 @@
     <div class="row my-3 row-custom">
       <div class="col-lg-6 mb-4">
         <!-- card route map start-->
-        <div class="card card-route-map" style="height: 400px">
+        <div class="card card-route-map card-insert-route">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
               <i class="fa fa-filter"></i> Route Map
@@ -121,8 +121,8 @@
       </div>
       <div class="col-lg-6">
         <div class="row">
-          <div class="col-6">
-            <div class="card card-points">
+          <div class="col-6 mb-4">
+            <div class="card card-points card-insert-route">
               <div class="card-header custom-card-header bg-main-color">
                 <h4>
                   <i class="fa fa-filter"></i> Points
@@ -131,7 +131,7 @@
               <div class="card-body custom-card-body">
                 <div class="form-group">
                   <label for="">Zone</label>
-                  <select name="" id="selectRouteZone" class="form-control">
+                  <select name="" id="selectRouteZone" class="form-control selectZones">
                     
                   </select>
                 </div>
@@ -143,8 +143,8 @@
             </div>
 
           </div>
-          <div class="col-6">
-            <div class="card">
+          <div class="col-6 mb-4">
+            <div class="card card-insert-route">
               <div class="card-header bg-main-color custom-card-header">
                 <div class="row">
                   <div class="col-lg-8">
@@ -156,15 +156,98 @@
                     <button class="btn btn-custom bg-main-color" id="btnSaveSelectedPoints">Save</button>
                   </div>
                 </div>
-                
               </div>
               <div class="card-body custom-card-body">
-                <div class="sortable" id="selectedPointsOnRoute" style="height: 450px; overflow: auto">
+                <div class="form-group">
+                    <label for="">Route name</label>
+                    <input type="text" id="txtSaveRouteName" class="form-control" placeholder="Enter route name">
+                </div>
+                <div class="sortable points" id="selectedPointsOnRoute">
                   
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-3">
+          <div class="card card-filter">
+          <div class="card-header bg-main-color custom-card-header">
+            <h4>
+              <i class="fa fa-filter"></i> Filters
+            </h4>
+          </div>
+          <div class="card-body custom-card-body">
+            <div class="row mt-3">
+              <div class="col-12">
+                <label for="">Zone</label>
+                <br>
+                <select class="form-control selectZones" id="selectZonesFilter">
+
+                </select>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12">
+                <!-- <button class="btn btn-custom bg-main-color pull-right" id="btnPointsData">View</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-9">
+        <div class="card card-incident">
+          <div class="card-header bg-main-color custom-card-header">
+            <h4>
+              <i class="fa fa-exclamation-triangle"></i> Routes
+            </h4>
+          </div>
+          <div class="card-body custom-card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped table-condensed text-center custom-table" id="tblRoutes">
+                <!-- Points content here -->
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-12">
+        <!-- Modal Update Route Guard -->
+        <div class="modal fade" id="modalUpdateRouteGuard">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Update Route Guard</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">  
+                  <ul class="list-group">
+                    <li class="list-group-item listUpdatedRoute"></li>
+                    <li class="list-group-item currentGuard"></li>
+                    <li class="list-group-item ">
+                      <div class="form-group">
+                        <label for="">Select Guard</label>
+                        <select  id="" class="form-control selectGuards">
+                          
+                        </select>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-custom bg-main-color btnSaveRouteUpdateGuard" data-dismiss="modal">Save</button>
+                </div>
+              </div>
+            </div>
         </div>
       </div>
     </div>

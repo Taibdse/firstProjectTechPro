@@ -120,12 +120,97 @@ class Service {
 
   static async inActivePoint(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}InactivePoint.php`,
+      url: `${APP_DOMAIN}UpdatePoint.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  static async insertPoint(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}UpdatePoint.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  static async saveRoute(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}UpdateRoute.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  static async deleteRoute(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}UpdateRoute.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
     return data;
   }
   
+  static async updateRouteGuard(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}UpdateRouteGuard.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  static async getRoutesOnZone(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}GetRouteData.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  static async updateGuard(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}UpdateGuard.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  static async insertGuard(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}UpdateGuard.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  static async inActiveGuard(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}UpdateGuard.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  static async getPersonalGuardsInfo() {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}GetGuardInformation.php`,
+      method: 'post',
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
 
 }

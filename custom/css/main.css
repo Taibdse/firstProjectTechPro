@@ -68,6 +68,7 @@ nav.navbar{
   font-size: 0.85em;
   text-transform: capitalize;
   margin-top: -5px;
+  margin-left: 0px
 }
 .input-custom{
   padding-top: 0px;

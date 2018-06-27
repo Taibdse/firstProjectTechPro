@@ -101,57 +101,42 @@
   <div class="container-fluid">
 
     <div class="row my-3 row-custom">
-      <!-- filter and incident card -->
-      <div class="col-lg-3">
+      <!-- guard action card start -->
+      <div class="col-lg-4">
         <!-- card filter start -->
-        <div class="card card filter">
+        <div class="card card-action">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
-              <i class="fa fa-filter"></i> Filters
+              <i class="fa fa-filter"></i> Guard Filters
             </h4>
           </div>
           <div class="card-body custom-card-body">
             <div class="row mt-3">
               <div class="col-12">
-                <label for="">Zone</label>
-                <br>
-                <select name="" class="form-control" id="jcomboboxZone">
-
-                </select>
+                
               </div>
             </div>
             <div class="row mt-3">
               <div class="col-12">
-                <button class="btn btn-custom bg-main-color pull-right" id="btnPointsData">View</button>
-                <button class="btn btn-custom bg-main-color pull-right" id="btnMapAllPoints">Map</button>
-                <div class="dropdown pull-right">
-                  <button class="btn dropdown-toggle btn-custom bg-main-color" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
-                    Action
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                    <button class="dropdown-item btn btn-custom btn-success" type="button">insert</button>
-                    <button class="dropdown-item btn btn-custom btn-danger" type="button">Update</button>
-                  </div>
-                </div>
+                <button class="btn btn-custom bg-main-color pull-right" id="btnShowGuardInsertModal">Insert</button>
               </div>
             </div>
           </div>
         </div>
-        <!-- card filter end -->
+        <!-- guard action card end -->
       </div>
 
-      <div class="col-lg-9">
+      <div class="col-lg-8">
         <!-- card Points start -->
         <div class="card card-incident">
           <div class="card-header bg-main-color custom-card-header">
             <h4>
-              <i class="fa fa-exclamation-triangle"></i> Points
+              <i class="fa fa-exclamation-triangle"></i> Guards
             </h4>
           </div>
           <div class="card-body custom-card-body">
             <div class="table-responsive">
-              <table class="table table-hover table-striped table-condensed text-center custom-table" id="tblPoints">
+              <table class="table table-hover table-striped table-condensed text-center custom-table" id="tblGuards">
                 <!-- Points content here -->
               </table>
             </div>
@@ -160,58 +145,91 @@
         <!-- card Points end -->
       </div>
     </div>
+    
     <div class="row">
       <div class="col-12">
-        <div class="modal fade bd-example-modal-lg" id="modalMapPoint">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+        <!-- Modal Insert Guard-->
+        <div class="modal fade" id="modalInsertGuard">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content ">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Point Map</h5>
+                <h5 class="modal-title">Insert guard</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-12">
-        <div class="modal fade" id="modalInsertPoints">
-          <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form>
+                <form action="" id="formInsertGuard">
                   <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Recipient:</label>
-                    <input type="text" class="form-control" id="recipient-name">
+                    <label for="">Name</label>
+                    <input type="text" class="form-control" placeholder="Enter name..." id="txtInsertGuardName">
                   </div>
                   <div class="form-group">
-                    <label for="message-text" class="col-form-label">Message:</label>
-                    <textarea class="form-control" id="message-text"></textarea>
+                    <label for="">Phone</label>
+                    <input type="text" class="form-control" placeholder="Enter phone..." id="txtInsertGuardPhone">
                   </div>
+                  <div class="form-group">
+                    <label for="">Username</label>
+                    <input type="text" class="form-control" placeholder="Enter username..." id="txtInsertGuardUsername">
+                  </div>
+                  <div class="form-group">
+                    <label for="">Password</label>
+                    <input type="text" class="form-control" placeholder="Enter password..." id="txtInsertGuardPassword">
+                  </div>
+                  <button class="btn bg-main-color btn-custom" type="submit">Save</button>
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Send message</button>
+                <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-12">
+        <!-- Modal Update Guard-->
+        <div class="modal fade" id="modalUpdateGuard">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content ">
+              <div class="modal-header">
+                <h5 class="modal-title">Update guard</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="" id="formUpdateGuard">
+                  <div class="form-group">
+                    <label for="">ID</label>
+                    <input type="text" class="form-control" id="txtUpdateGuardID" disabled>
+                  </div>
+                  <div class="form-group">
+                    <label for="">Name</label>
+                    <input type="text" class="form-control" placeholder="Enter name..." id="txtUpdateGuardName">
+                  </div>
+                  <div class="form-group">
+                    <label for="">Phone</label>
+                    <input type="text" class="form-control" placeholder="Enter phone..." id="txtUpdateGuardPhone">
+                  </div>
+                  <div class="form-group">
+                    <label for="">Username</label>
+                    <input type="text" class="form-control" placeholder="Enter username..." id="txtUpdateGuardUsername">
+                  </div>
+                  <button class="btn bg-main-color btn-custom" type="submit">Save</button>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom bg-main-color" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- JQuery core -->
@@ -232,6 +250,9 @@
   <!-- datetimepicker js -->
   <script src="../plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
+  <!-- sweetalert js -->
+  <script src="../plugins/sweetalert/js/sweetalert.min.js"></script>
+
   <script src="../plugins/leaflet/js/leaflet.js"></script>
 
   <!-- translate js plugins -->
@@ -243,8 +264,11 @@
   <!-- service request -->
   <script src="../custom/js/service.js"></script>
 
-  <!-- custom points js -->
-  <script src="../custom/js/points.js"></script>
+  <!-- main js -->
+  <script src="../custom/js/main.js"></script>
+
+  <!-- custom guard js -->
+  <script src="../custom/js/guard.js"></script>
 
 </body>
 
