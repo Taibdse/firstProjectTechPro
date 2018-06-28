@@ -25,14 +25,7 @@ async function insertGuard(){
     let response = await Service.insertGuard(sentData);
     console.log(response);
     $('#modalInsertGuard').modal('hide');
-    $('#formInsertGuard')[0].reset;
-    await swal({
-      title: "Inactive successfully!",
-      text: "",
-      icon: "success",
-      button: "Close!",
-      timer: 1000
-    });
+    showAlertSuccess("Insert successfully!", "", 2000);
     showGuards();
   }
 }
@@ -57,12 +50,7 @@ function checkValidation(name, username, phone, password){
     errMsg += 'Password must be longer than 4\n'
   } 
   if(!valid){
-    swal({
-      title: "Invalid data",
-      text: errMsg,
-      icon: "error",
-      button: "Close!",
-    });
+    showAlertError("Invalid data!", errMsg);
   }
   return valid;
 }
@@ -76,28 +64,19 @@ async function updateGuard(){
   let sentData = { sGuardNameIN: name, sGuardPhone: phone, sGuardUsername: username, sGuardPassword: 0, iGuardIDIN: id, bStatusIN: 2 };
   let response = await Service.updateGuard(sentData);
   console.log(response);
-  await swal({
-    title: "Updated successfully!",
-    text: "",
-    icon: "success",
-    button: "Close!",
-    timer: 1000
-  });
+  showAlertSuccess("Updated successfully!", "", 2000);
   showGuards();
 }
 
 async function inActiveGuard(id){
-  let sentData = { sGuardNameIN: 0, sGuardPhone: 0, sGuardUsername: 0, sGuardPassword: 0, iGuardIDIN: id, bStatusIN: 3 };
-  let response = await Service.inActiveGuard(sentData);
-  console.log(response);
-  await swal({
-    title: "Inactive successfully!",
-    text: "",
-    icon: "success",
-    button: "Close!",
-    timer: 1000
-  });
-  showGuards();
+  let sure = await showAlertWarning("Are you sure?", "");
+  if(sure){
+    let sentData = { sGuardNameIN: 0, sGuardPhone: 0, sGuardUsername: 0, sGuardPassword: 0, iGuardIDIN: id, bStatusIN: 3 };
+    let response = await Service.inActiveGuard(sentData);
+    console.log(response);
+    showAlertSuccess("Inactive successfully!", "", 2000);
+    showGuards();
+  }
 }
 
 function renderGuardTable(guards){
@@ -177,13 +156,7 @@ async function sendMessageGuard(){
   let response = await Service.sendMessageGuard(sentData);
   console.log(response);
   $('#modalSendMessageGuard').modal('hide');
-  await swal({
-    title: "Send successfully!",
-    text: "",
-    icon: "success",
-    button: "Close!",
-    timer: 2000
-  });
+  showAlertSuccess("Send successfully!", "", 2000);
 }
 
 function showGuardModalResetPass(guard){
@@ -200,6 +173,7 @@ function showGuardModalUpdate(guard){
 }
 
 function showGuardModalInsert(){
+  $('#formInsertGuard')[0].reset();
   $('#modalInsertGuard').modal('show');
 }
 

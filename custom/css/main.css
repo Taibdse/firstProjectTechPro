@@ -111,5 +111,8 @@ nav.navbar{
 .dropdown-item{
   margin: 5px !important;
 }
+.min-height-table{
+  min-height: 200px;
+}
 
 
