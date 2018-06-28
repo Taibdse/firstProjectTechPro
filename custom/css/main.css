@@ -108,6 +108,8 @@ nav.navbar{
 .dropdown-menu{
   z-index: 10000;
 }
-
+.dropdown-item{
+  margin: 5px !important;
+}
 
 

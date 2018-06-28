@@ -125,6 +125,8 @@ function buildIncidentMap(incidents){
 }
 
 function showMapIncident(incidents){
-  buildIncidentMap(incidents);
   $('#modalIncidentMap').modal('show');
+  setTimeout(() => {
+    buildIncidentMap(incidents);
+  }, 500);
 }

@@ -141,8 +141,11 @@ function handleClickPointMap(e, popup, map, L){
 function showPointsMap(){
   let $mapArea = $('<div id="mapPoint" class="mymap" style="height:400px"></div>'); 
   $('#modalMapPoint').find('.modal-body').html($mapArea);
-  buildPointsMap(arrCurrentPoints, 'mapPoint');
   $('#modalMapPoint').modal('show');
+  setTimeout(() => {
+    buildPointsMap(arrCurrentPoints, 'mapPoint');
+  }, 500);
+  
 }
 
 async function showPointsData() {
@@ -158,8 +161,10 @@ function showInsertPointModal(){
   currentUpdatedPoint = null;
   let $mapArea = $('<div id="mapPointInsert" class="mymap"></div>'); 
   $('#insertPointMap').html($mapArea);
-  buildPointsMap([], 'mapPointInsert');
   $('#modalInsertPoint').modal('show');
+  setTimeout(() => {
+    buildPointsMap([], 'mapPointInsert');
+  }, 500);
 }
 
 function showUpdatePointModal(point){

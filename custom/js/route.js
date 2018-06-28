@@ -10,6 +10,7 @@ $(() => {
         let point = arrPointsOnZone.find(p => p.iPointID == id.trim());
         arrSelectedPointsOnRoute.push(point);
       })
+      showDistanceAndTimeOfRoute();
       setTimeout(() => {
         showRouteMap(arrSelectedPointsOnRoute);
       }, 100)
@@ -34,11 +35,13 @@ $(() => {
 var arrSelectedPointsOnRoute = [];
 var arrPointsOnZone = [];
 var currentUpdatedRoute = null;
-
+var currentTotalDistance = 0;
+var currentTimeCompleted = 0;
+// routeMap
 function buildRouteMap(data){
-  let $mapArea = $('<div id="routeMap" class="map"></div>');
+  let $mapArea = $(`<div id="routeMap" class="map"></div>`);
   $('.card-route-map').find('.card-body').html($mapArea);
-  var mymap = L.map('routeMap').setView([20.81715284, 106.77411238], 14);
+  var mymap = L.map(`routeMap`).setView([20.81715284, 106.77411238], 14);
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
@@ -96,6 +99,70 @@ function buildRouteMap(data){
 
 }
 
+function buildRouteMapOnModal(data){
+  let $mapArea = $(`<div id="routeMapOnModal" class="map"></div>`);
+  $('#modalViewMapRoute').find('.modal-body').html($mapArea);
+  var mymap = L.map(`routeMapOnModal`).setView([20.81715284, 106.77411238], 14);
+  mymap.invalidateSize(true);
+  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
+    id: 'Techpro'
+  }).addTo(mymap);
+
+  var LeafIcon = L.Icon.extend({
+    options: {
+      iconSize: [15, 15]
+    }
+  });
+
+  L.icon = function (options) {
+    return new L.Icon(options);
+  };
+
+  var Checked = new LeafIcon({
+       iconUrl: '../img/Checked.png'
+    });
+    
+    if(data){
+      let arrPointsCoordination = [];
+      data.forEach((point, index) => {
+        const { dPointLat, dPointLong} = point;
+        console.log(dPointLat);
+        let pos = [Number(dPointLat), Number(dPointLong)];
+        let mes = `${index + 1}`;
+        arrPointsCoordination.push(pos)
+        L.marker(pos, {
+         icon: Checked
+        }).bindTooltip(mes, {
+          permanent: true,
+          interactive: true
+        }).addTo(mymap);
+      })
+      var polyline = new L.Polyline([
+        arrPointsCoordination
+      ], {
+        color: 'green',
+        weight: 5,
+        opacity: 0.5
+      }).addTo(mymap);
+      mymap.fitBounds(polyline.getBounds());
+    }
+
+  // {"iPointID":"78","sPointCode":null,"sZoneName":"Zone 1","dPointLat":"20.82054995","dPointLong":"106.77008481","dDateTimeAdd":"2018-04-27 16:08:27","iNo":"1","iZoneID":"1"}
+  // let mes = `${sGuardName} - ${dLastUpdateTime}`;
+  // let pos = [Number(dGuardLongCurrent), Number(dGuardLatCurrent)]
+
+  // L.marker(pos, {
+  //   icon: Guard
+  // }).bindTooltip(mes, {
+  //   permanent: true,
+  //   interactive: true
+  // }).addTo(mymap);
+
+}
+
+
 function showRouteMap(data){
   buildRouteMap(data);
 }
@@ -118,6 +185,7 @@ function renderZoneOnJcomboboxFilter(data) {
     })
   }
 }
+
 async function showZonesOnJcomboboxFilter(){
   let data = await Service.getAllZones();
   renderZoneOnJcomboboxFilter(data);
@@ -170,6 +238,7 @@ function showSelectedPointWhenCheckbox(e, point){
     arrSelectedPointsOnRoute.splice(index, 1);
     renderListOfSelectedPoints(arrSelectedPointsOnRoute);
   }
+  showDistanceAndTimeOfRoute();
   setTimeout(() => {
     showRouteMap(arrSelectedPointsOnRoute);
   }, 100)
@@ -185,9 +254,24 @@ function showSelectedPointWhenRemoveAlert(point){
       $(checkbox).prop({checked: false});
     }
   })
+  showDistanceAndTimeOfRoute();
   setTimeout(() => {
     showRouteMap(arrSelectedPointsOnRoute);
   },100)
+}
+
+function showDistanceAndTimeOfRoute(){
+  if(arrSelectedPointsOnRoute.length > 0){
+    let totalDistance = calDistanceOfRoute(arrSelectedPointsOnRoute);
+    currentTotalDistance = totalDistance;
+    $('.sumOfDistance').text(`Total distance: ${totalDistance.toFixed(1)}km`);
+    let time = totalDistance / 25 * 60;
+    currentTimeCompleted = time;
+    $('.timeCompleted').text(`Time completed: ${parseInt(time)} min`)
+  }else{
+    $('.sumOfDistance').text('');
+    $('.timeCompleted').text('');
+  }
 }
 
 function renderListOfSelectedPoints(selectedPoints){
@@ -215,10 +299,19 @@ async function saveRoute(){
     const { iPointID } = p;
     return {PointID: iPointID, No: index + 1}
   })
-  let sentData = {RouteID: 0, RouteName, bStatusIN: 1, Point: arrPoints };
+  let Distance = Number(currentTotalDistance.toFixed(1));
+  let TimeComplete = parseInt(currentTimeCompleted);
+  let ZoneID = $('#selectRouteZone').val();
+  let sentData = {RouteID: 0, RouteName, bStatusIN: 1, Point: arrPoints, ZoneID, TimeComplete, Distance };
   console.log(JSON.stringify(sentData));
   let response = await Service.saveRoute(sentData);
   console.log(response);
+//   RouteID		
+// ZoneID			
+// RouteName		
+// Distance		
+// TimeComplete	
+// bStatusIN
 }
 
 async function deleteRoute(routeId){
@@ -250,43 +343,83 @@ function renderTableRoutes(routes){
   $thead.html(
     `
       <tr>
-        <th class="trn">ZoneId</th>
+        <th class="trn">ZoneName</th>
         <th class="trn">Route name</th>
-        <th class="trn">RouteId</th>
+        <th class="trn">GuardName</th>
+        <th class="trn">TimeComplete</th>
         <th class="trn">Distance</th>
         <th class="trn">DateTimeUpdate</th>
-        <th class="trn">TimeComplete</th>
         <th class="trn">Active</th>
-        <th class="trn">GuardID</th>
         <th class="trn"></th>
       </tr>
     `
   )
   if (routes) {
     routes.forEach(route => {
-      const { bActive, dDateTimeUpdate, dDistance, iGuardID, iRouteID, iTimeComplete, iZoneID, sRouteName } = route;
+      const { bActive, dDateTimeUpdate, dDistance, iGuardID, iRouteID, iTimeComplete, iZoneID, sRouteName, sZoneName, sGuardName
+      } = route;
       $tbody.append(`
         <tr>
-          <td>${iZoneID}</td>
+          <td>${sZoneName}</td>
           <td>${sRouteName}</td>
-          <td>${iRouteID}</td>
+          <td>${sGuardName}</td>
+          <td>${iTimeComplete}</td>
           <td>${dDistance}</td>
           <td>${dDateTimeUpdate}</td>
-          <td>${iTimeComplete}</td>
           <td>${bActive}</td>
-          <td>${iGuardID}</td>
           <td>
-            <button class="btn btn-custom bg-main-color btnRouteUpdateGuard btn-custom-small">Update</button>
+            <div class="btn-group">
+              <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Action
+              </button>
+              <div class="dropdown-menu" >
+                <button class="btn btn-custom btn-success btnRouteViewMap btn-custom-small dropdown-item">Map</button>
+                <button class="btn btn-custom btn-info btnRouteUpdateGuard btn-custom-small dropdown-item">Update</button>
+                <button class="btn btn-custom btn-warning btnInactiveRoute btn-custom-small dropdown-item">In active</button>
+              </div>
+            </div>
           </td>
         </tr>
       `)
       $tbody.find('.btn.btnRouteUpdateGuard').last().click(function(){
         showUpdateRouteGuardModal(route);
       })
+      $tbody.find('.btn.btnRouteViewMap').last().click(function(){
+        showRouteViewMapModal(route);
+      })
+      $tbody.find('.btn.btnInactiveRoute').last().click(function(){
+        showRouteViewMapModal(route);
+      })
     })
   }
-
   $table.append($thead).append($tbody);
+}
+{/* <button class="btn btn-custom bg-main-color btnRouteViewMap btn-custom-small">Map</button>
+            <button class="btn btn-custom bg-main-color btnRouteUpdateGuard btn-custom-small">Update</button>
+            <button class="btn btn-custom bg-main-color btnInactiveRoute btn-custom-small">In active</button> */}
+
+{/* <div class="btn-group">
+  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Action
+  </button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="#">Action</a>
+    <a class="dropdown-item" href="#">Another action</a>
+    <a class="dropdown-item" href="#">Something else here</a>
+  </div>
+</div> */}
+
+async function showRouteViewMapModal(route){
+  const { iRouteID } = route;
+  let sentData = { iRouteID };
+  console.log(route);
+  console.log(JSON.stringify(sentData));
+  let data = await Service.getRouteDetailsData(sentData);
+  console.log(data);
+  $('#modalViewMapRoute').modal('show');
+  setTimeout(() => {
+    buildRouteMapOnModal(data);
+  }, 500);
 }
 
 function showUpdateRouteGuardModal(route){
@@ -295,6 +428,10 @@ function showUpdateRouteGuardModal(route){
   $('#modalUpdateRouteGuard').find('.listUpdatedRoute').text(`${sRouteName} - ${iRouteID} on zone ${iZoneID}`);
   $('#modalUpdateRouteGuard').find('.currentGuard').text(`Current guard id: ${iGuardID}`);
   $('#modalUpdateRouteGuard').modal('show');
+}
+
+function showRouteMapOnModal(){
+  let id = '';
 }
 
 async function showGuardIdOnCombobox(){
@@ -314,6 +451,39 @@ async function updateGuardRoute(){
   let response = await Service.updateRouteGuard(sentData);
   showRoutesOnTable();
   console.log(response);
+}
+
+function calDistanceOfRoute(points){
+  let sumOfDistance = 0;
+  console.log(points);
+  points.forEach((point, index) => {
+    if(index != points.length - 1){
+      const { dPointLat, dPointLong } = point;
+      let lat1 = Number(dPointLat);
+      let lon1 = Number(dPointLong);
+      const lat2 = Number(points[index + 1].dPointLat);
+      const lon2 = Number(points[index + 1].dPointLong);
+      let R = 6371; // km
+      let φ1 = toRadian(lat1);
+      let φ2 = toRadian(lat2);
+      let Δφ = toRadian(lat2-lat1);
+      let Δλ = toRadian(lon2-lon1);
+
+      let a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+            Math.cos(φ1) * Math.cos(φ2) *
+            Math.sin(Δλ/2) * Math.sin(Δλ/2);
+            let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+            let d = R * c;
+      sumOfDistance += d;
+    }
+  })
+  console.log(sumOfDistance);
+  return sumOfDistance;
+}
+
+function toRadian(degree) {
+  return degree*Math.PI/180;
 }
 
 // {

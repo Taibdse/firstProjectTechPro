@@ -145,6 +145,18 @@ class Service {
     return data;
   }
 
+  static async getRouteDetailsData(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}GetRouteDetailData.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
   static async deleteRoute(sentData) {
     let data = await $.ajax({
       url: `${APP_DOMAIN}UpdateRoute.php`,
@@ -211,6 +223,26 @@ class Service {
     if (Array.isArray(parsedData) && parsedData.length > 0)
       return parsedData;
     return null;
+  }
+
+  static async getPersonalGuardsInfo() {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}GetGuardInformation.php`,
+      method: 'post',
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  static async sendMessageGuard(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}InsertMessage.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
   }
 
 }

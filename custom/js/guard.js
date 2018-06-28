@@ -8,9 +8,11 @@ $(() => {
     insertGuard();
   });
   $('#btnShowGuardInsertModal').click(showGuardModalInsert);
-
+  $('#btnSendMessageGuard').click(sendMessageGuard);
   showGuards();
 })
+
+var currentSendMessageGuard = null;
 
 async function insertGuard(){
   let name = $('#txtInsertGuardName').val();
@@ -126,9 +128,17 @@ function renderGuardTable(guards){
           <td>${sGuardUserName}</td>
           <td>${bActive}</td>
           <td>
-            <button class="btn btn-custom bg-main-color btn-custom-small btnInactiveGuard">Inactive</button>
-            <button class="btn btn-custom bg-main-color btn-custom-small btnShowUpdateGuardModal">Update</button>
-            <button class="btn btn-custom bg-main-color btn-custom-small btnShowModalResetPassword">Reset Password</button>
+            <div class="btn-group">
+              <button type="button" class="btn btn-custom bg-main-color btn-custom-small dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Action
+              </button>
+              <div class="dropdown-menu" >
+                <button class="btn btn-custom bg-danger btn-custom-small dropdown-item btnInactiveGuard">Inactive</button>
+                <button class="btn btn-custom btn-info btn-custom-small dropdown-item btnShowUpdateGuardModal">Update</button>
+                <button class="btn btn-custom btn-warning btn-custom-small dropdown-item btnShowModalResetPassword">Reset Password</button>
+                <button class="btn btn-custom btn-primary btn-custom-small dropdown-item btnShowModalSendMessage">Send Message</button>
+              </div>
+            </div>
           </td>
         </tr>
       `)
@@ -141,11 +151,39 @@ function renderGuardTable(guards){
       $tbody.find('.btn.btnShowModalResetPassword').last().click(() => {
         showGuardModalResetPass(guard);
       })
+      $tbody.find('.btn.btnShowModalSendMessage').last().click(() => {
+        showModalSendMessage(guard);
+      })
     })
   }
 
   $table.append($thead).append($tbody);
 
+}
+
+function showModalSendMessage(guard){
+  const { iGuardID, sGuardName } = guard;
+  currentSendMessageGuard = guard;
+  $('#txtSendMessageGuardName').val(sGuardName);
+  $('#textAreaSendMessage').val('')
+  $('#modalSendMessageGuard').modal('show');
+}
+
+async function sendMessageGuard(){
+  const { iGuardID } = currentSendMessageGuard;
+  let sMessageContent = $('#textAreaSendMessage').val();
+  console.log(sMessageContent);
+  let sentData = { iGuardID, sMessageContent };
+  let response = await Service.sendMessageGuard(sentData);
+  console.log(response);
+  $('#modalSendMessageGuard').modal('hide');
+  await swal({
+    title: "Send successfully!",
+    text: "",
+    icon: "success",
+    button: "Close!",
+    timer: 2000
+  });
 }
 
 function showGuardModalResetPass(guard){

@@ -79,9 +79,10 @@
     let time = $('#reportDatetime').val();
     if(time == '') return alert('No date time submitted');
     let dDateTime = changeFormatDateTime(time);
-    let sentData = {GuardID, dDateTime}
+    let sentData = { GuardID, dDateTime }
     const data = await Service.getReportData(sentData);
-    renderReportTable(JSON.parse(data));
+    console.log(data);
+    renderReportTable(data);
   }
 
   function renderGuardCombobox(data){

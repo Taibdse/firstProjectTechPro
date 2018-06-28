@@ -17,3 +17,6 @@
   height: 270px!important; 
   overflow: auto!important;
 }
+.dropdown-item{
+  margin: 5px !important;
+}

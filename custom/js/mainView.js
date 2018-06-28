@@ -134,7 +134,7 @@ function buildCurrentMapGuard(data){
     });
  
   var Guard = new LeafIcon({
-       iconUrl: '../img/Checked.png'
+       iconUrl: '../img/Guard.png'
     });
 
   L.icon = function (options) {

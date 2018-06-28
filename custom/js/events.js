@@ -130,7 +130,6 @@ function checkTimeFormat(from, to) {
 }
 //====================================================
 
-
 // ======= get and show events history details =======
 
 async function showEventHistoryDetails(checkingCode) {
@@ -153,6 +152,7 @@ function renderTableEventHistoryDetails(data) {
         <th class="trn">Status</th>
         <th class="trn">DateTime</th>
         <th class="trn">KindCheck</th>
+        <th class="trn">#</th>
       </tr>
     `
   )
@@ -165,6 +165,7 @@ function renderTableEventHistoryDetails(data) {
           <td>${detail.sStatus}</td>
           <td>${detail.dDateTimeHistory}</td>
           <td>${detail.KindCheck}</td>
+          <td>${detail.iNo}</td>
         </tr>
       `)
     })
@@ -192,6 +193,7 @@ function buildEventDetailsMap(event) {
         iconSize: [15, 15]
       }
     });
+    
     if(event){
       event.forEach(detail => {
         let lat = Number(detail.dPointLat);
@@ -221,15 +223,11 @@ function buildEventDetailsMap(event) {
 }
 
 async function showEventDetailsMap(checkingCode) {
-  let $mapView = $('<div id="mapEventDetails" class="mymap"></div>');
+  let $mapView = $('<div id="mapEventDetails" class="mymap" style="height:360px"></div>');
   $('#modalEventMap').find('.modal-body').html($mapView);
   let event = await Service.getEventHistoryDetails(checkingCode);
-  buildEventDetailsMap(event);
   $('#modalEventMap').modal('show');
-}
-
-function rendeEventMap() {
-
+  setTimeout(() => {buildEventDetailsMap(event)}, 500);
 }
 
 async function showAllGuard(){
@@ -239,7 +237,9 @@ async function showAllGuard(){
 
 function renderGuardCombobox(guards){
   $('#selectGuardName').html('');
-  guards.forEach(guard => {
-    $('#selectGuardName').append(`<option value="${guard.iGuardId}">${guard.sGuardName}</option>`)
-  });
+  if(guards){
+    guards.forEach(guard => {
+      $('#selectGuardName').append(`<option value="${guard.iGuardId}">${guard.sGuardName}</option>`)
+    });
+  }
 }
