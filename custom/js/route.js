@@ -306,16 +306,12 @@ async function saveRoute(){
   console.log(JSON.stringify(sentData));
   let response = await Service.saveRoute(sentData);
   console.log(response);
-//   RouteID		
-// ZoneID			
-// RouteName		
-// Distance		
-// TimeComplete	
-// bStatusIN
+  showAlertSuccess("Save successfully!", "", 2000);
 }
 
 async function deleteRoute(routeId){
   let RouteName = $('#txtSaveRouteName').val();
+  if(RouteName == '' || RouteName.trim() == '') return showAlertError("Routename must be filled!", "", 3000);
   // let arrPoints = arrSelectedPointsOnRoute.map((p, index) => {
   //   const { iPointID } = p;
   //   return {PointID: iPointID, No: index + 1}
@@ -323,6 +319,7 @@ async function deleteRoute(routeId){
   let sentData = { RouteID: routeId, RouteName, bStatusIN: 2, Point: 0 };
   let response = await Service.deleteRoute(sentData);
   console.log(response);
+  showAlertSuccess("Deleted successfully!", "", 2000);
 }
 
 async function showRoutesOnTable(){
@@ -394,20 +391,6 @@ function renderTableRoutes(routes){
   }
   $table.append($thead).append($tbody);
 }
-{/* <button class="btn btn-custom bg-main-color btnRouteViewMap btn-custom-small">Map</button>
-            <button class="btn btn-custom bg-main-color btnRouteUpdateGuard btn-custom-small">Update</button>
-            <button class="btn btn-custom bg-main-color btnInactiveRoute btn-custom-small">In active</button> */}
-
-{/* <div class="btn-group">
-  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Action
-  </button>
-  <div class="dropdown-menu">
-    <a class="dropdown-item" href="#">Action</a>
-    <a class="dropdown-item" href="#">Another action</a>
-    <a class="dropdown-item" href="#">Something else here</a>
-  </div>
-</div> */}
 
 async function showRouteViewMapModal(route){
   const { iRouteID } = route;
@@ -451,6 +434,7 @@ async function updateGuardRoute(){
   let response = await Service.updateRouteGuard(sentData);
   showRoutesOnTable();
   console.log(response);
+  showAlertSuccess("Updated successfully!", "", 2000);
 }
 
 function calDistanceOfRoute(points){
