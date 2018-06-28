@@ -1,34 +1,72 @@
 const APP_DOMAIN = 'http://115.79.27.219/tracking/api/';
 
 class Service {
-  static async getAllZones() {
-    let data = await $.ajax({
-      url: `${APP_DOMAIN}GetZone.php`,
-      method: 'post',
-    });
-    let parsedData = JSON.parse(data);
-    if (Array.isArray(parsedData) && parsedData.length > 0)
-      return parsedData;
-    return null;
-  }
-
-  static async getEventsData() {
-    let data = await $.ajax({
-      url: `${APP_DOMAIN}GetEvent.php`,
-      method: 'post'
-    });
-    let parsedData = JSON.parse(data);
-    if (Array.isArray(parsedData) && parsedData.length > 0)
-      return parsedData;
-    return null;
-  }
-
+  // Guard's request
   static async getGuardsData() {
     let data = await $.ajax({
       url: `${APP_DOMAIN}GetGuard.php`,
       method: 'post'
     });
     let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  static async updateGuard(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}UpdateGuard.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  static async insertGuard(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}UpdateGuard.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  static async getPersonalGuardsInfo() {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}GetGuardInformation.php`,
+      method: 'post',
+    });
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
+  }
+
+  static async sendMessageGuard(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}InsertMessage.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  static async inActiveGuard(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}UpdateGuard.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  //Zone's request
+  static async getAllZones() {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}GetZone.php`,
+      method: 'post',
+    });
+    let parsedData = JSON.parse(data);
     if (Array.isArray(parsedData) && parsedData.length > 0)
       return parsedData;
     return null;
@@ -46,25 +84,25 @@ class Service {
     return null;
   }
 
-  static async getReportData(sentData) {
+  static async getRoutesOnZone(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}ReportGuard.php`,
+      url: `${APP_DOMAIN}GetRouteData.php`,
       method: 'post',
       data: JSON.stringify(sentData)
-    })
+    });
     let parsedData = JSON.parse(data)
     if (Array.isArray(parsedData) && parsedData.length > 0)
       return parsedData;
     return null;
   }
 
-  static async getIncidentsData(sentData) {
+  // Events'request
+  static async getEventsData() {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}GetIncidentData.php`,
-      method: 'post',
-      data: JSON.stringify(sentData)
+      url: `${APP_DOMAIN}GetEvent.php`,
+      method: 'post'
     });
-    let parsedData = JSON.parse(data)
+    let parsedData = JSON.parse(data);
     if (Array.isArray(parsedData) && parsedData.length > 0)
       return parsedData;
     return null;
@@ -97,9 +135,10 @@ class Service {
     return null;
   }
 
-  static async getAssetsData(sentData) {
+  //Insicidents'request
+  static async getIncidentsData(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}GetAssetData.php`,
+      url: `${APP_DOMAIN}GetIncidentData.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
@@ -109,33 +148,19 @@ class Service {
     return null;
   }
 
-  static async updatePoint(sentData) {
+  static async getReportData(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}UpdatePoint.php`,
+      url: `${APP_DOMAIN}ReportGuard.php`,
       method: 'post',
       data: JSON.stringify(sentData)
-    });
-    return data;
+    })
+    let parsedData = JSON.parse(data)
+    if (Array.isArray(parsedData) && parsedData.length > 0)
+      return parsedData;
+    return null;
   }
 
-  static async inActivePoint(sentData) {
-    let data = await $.ajax({
-      url: `${APP_DOMAIN}UpdatePoint.php`,
-      method: 'post',
-      data: JSON.stringify(sentData)
-    });
-    return data;
-  }
-
-  static async insertPoint(sentData) {
-    let data = await $.ajax({
-      url: `${APP_DOMAIN}UpdatePoint.php`,
-      method: 'post',
-      data: JSON.stringify(sentData)
-    });
-    return data;
-  }
-
+  //Route'request
   static async saveRoute(sentData) {
     let data = await $.ajax({
       url: `${APP_DOMAIN}UpdateRoute.php`,
@@ -175,9 +200,39 @@ class Service {
     return data;
   }
 
-  static async getRoutesOnZone(sentData) {
+  //Route'request
+
+  static async updatePoint(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}GetRouteData.php`,
+      url: `${APP_DOMAIN}UpdatePoint.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  static async inActivePoint(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}UpdatePoint.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  static async insertPoint(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}UpdatePoint.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  //Asset'request
+  static async getAssetsData(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}GetAssetData.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
@@ -185,64 +240,6 @@ class Service {
     if (Array.isArray(parsedData) && parsedData.length > 0)
       return parsedData;
     return null;
-  }
-
-  static async updateGuard(sentData) {
-    let data = await $.ajax({
-      url: `${APP_DOMAIN}UpdateGuard.php`,
-      method: 'post',
-      data: JSON.stringify(sentData)
-    });
-    return data;
-  }
-
-  static async insertGuard(sentData) {
-    let data = await $.ajax({
-      url: `${APP_DOMAIN}UpdateGuard.php`,
-      method: 'post',
-      data: JSON.stringify(sentData)
-    });
-    return data;
-  }
-
-  static async inActiveGuard(sentData) {
-    let data = await $.ajax({
-      url: `${APP_DOMAIN}UpdateGuard.php`,
-      method: 'post',
-      data: JSON.stringify(sentData)
-    });
-    return data;
-  }
-
-  static async getPersonalGuardsInfo() {
-    let data = await $.ajax({
-      url: `${APP_DOMAIN}GetGuardInformation.php`,
-      method: 'post',
-    });
-    let parsedData = JSON.parse(data)
-    if (Array.isArray(parsedData) && parsedData.length > 0)
-      return parsedData;
-    return null;
-  }
-
-  static async getPersonalGuardsInfo() {
-    let data = await $.ajax({
-      url: `${APP_DOMAIN}GetGuardInformation.php`,
-      method: 'post',
-    });
-    let parsedData = JSON.parse(data)
-    if (Array.isArray(parsedData) && parsedData.length > 0)
-      return parsedData;
-    return null;
-  }
-
-  static async sendMessageGuard(sentData) {
-    let data = await $.ajax({
-      url: `${APP_DOMAIN}InsertMessage.php`,
-      method: 'post',
-      data: JSON.stringify(sentData)
-    });
-    return data;
   }
 
 }

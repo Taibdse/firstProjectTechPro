@@ -1,6 +1,6 @@
 
     $(() => {
-
+     
       $('#btnViewReport').click(showReportData);
       $('#btnExportReport2Excel').click(export2Excel);
       
@@ -36,7 +36,6 @@
 
   const arrPropsReport = ['iTime_per_Route', 'iExpected_Executed_Routes', 'iActual_Executed_Routes', 'iTime_spent_on_resolving_non_conformities', 'iMissed_routes_due_to_resolving_non_conformities', 'iCorrected_Executed_Routes', 'dPerformance_Routes', 'iSuccessful_routes_within_time_schedule', 'dPerformance_Timing', 'iSuccessful_routes_with_correct_routing', 'dPerformance_Routing', 'iRouting_Mistakes', 'dOverall_performance', 'iNumber_of_reports_issued', 'iActual_Patrolling_Time', 'iAllowed_Interval_between_trip', 'iTotal_patroling_time_in_minutes', 'dPerfomance_Time', 'iTotal_Idling_Time', 'dIdling_Time_in'];
 
-  // changeFormatDateTime
 
   function renderReportTable(data){
     let $table = $('#tblReports');
@@ -81,16 +80,17 @@
     let dDateTime = changeFormatDateTime(time);
     let sentData = { GuardID, dDateTime }
     const data = await Service.getReportData(sentData);
-    console.log(data);
     renderReportTable(data);
   }
 
   function renderGuardCombobox(data){
     $('#jcomboboxGuardReport').html('');
-    data.forEach(guard => {
-      const {iGuardId, sGuardName} = guard;
-      $('#jcomboboxGuardReport').append(`<option value="${iGuardId}">${sGuardName}</option>`)
-    })
+    if(data){
+      data.forEach(guard => {
+        const {iGuardId, sGuardName} = guard;
+        $('#jcomboboxGuardReport').append(`<option value="${iGuardId}">${sGuardName}</option>`)
+      })
+    }
   }
 
   async function showGuardReportPage(){

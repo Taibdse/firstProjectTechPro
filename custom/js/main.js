@@ -23,3 +23,34 @@ function changeFormatDateTime(time){
   let m = arr[0];
   return `${y}-${m}-${d}`;
 }
+
+function showAlertError(title, text, timer){
+  swal({
+    title: title,
+    text: text,
+    icon: "error",
+    button: "Close!",
+    timer: timer
+  });
+}
+
+function showAlertSuccess(title, text, timer){
+  swal({
+    title: title,
+    text: text,
+    icon: "success",
+    button: "Close!",
+    timer: timer
+  });
+}
+
+async function showAlertWarning(title, text){
+  let sure = await swal({
+    title: title,
+    text: text,
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  return sure;
+}

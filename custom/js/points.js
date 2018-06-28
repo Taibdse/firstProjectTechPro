@@ -1,5 +1,5 @@
 $(() => {
-
+  
   $('#btnPointsData').click(showPointsData);
   $('#btnMapAllPoints').click(function(){
     showPointsMap()
@@ -12,14 +12,13 @@ $(() => {
   
 })
 
-const arrNewAddedPoints = [];
-const arrCurrentPoints = [];
-const arrZones = [];
+var arrNewAddedPoints = [];
+var arrCurrentPointsOnZone = [];
+var arrZones = [];
 let currentUpdatedPoint = null;
 
 async function showAllZones() {
   let data = await Service.getAllZones();
-  renderZoneOnJcombobox(data);
   showPointsData();
 }
 
@@ -109,7 +108,7 @@ function buildPointsMap(points, id){
   });
 
   //show all points
-  if(points){
+  if(points && points.length > 0){
     points.forEach(point => {
       let mes = `Lat: ${point.dPointLat},\n Lng: ${point.dPointLong}`;
       let pos = [Number(point.dPointLat), Number(point.dPointLong)];
@@ -142,8 +141,9 @@ function showPointsMap(){
   let $mapArea = $('<div id="mapPoint" class="mymap" style="height:400px"></div>'); 
   $('#modalMapPoint').find('.modal-body').html($mapArea);
   $('#modalMapPoint').modal('show');
+  console.log(arrCurrentPointsOnZone)
   setTimeout(() => {
-    buildPointsMap(arrCurrentPoints, 'mapPoint');
+    buildPointsMap(arrCurrentPointsOnZone, 'mapPoint');
   }, 500);
   
 }
@@ -153,6 +153,8 @@ async function showPointsData() {
   if(zoneId){
     let sentData = { iZoneID: zoneId };
     let data = await Service.getPointsDataOnZone(sentData);
+    if(data) arrCurrentPointsOnZone = [...data];
+    else arrCurrentPointsOnZone = [];
     renderPointsTable(data);
   }
 }
@@ -163,7 +165,7 @@ function showInsertPointModal(){
   $('#insertPointMap').html($mapArea);
   $('#modalInsertPoint').modal('show');
   setTimeout(() => {
-    buildPointsMap([], 'mapPointInsert');
+    buildPointsMap(arrCurrentPointsOnZone, 'mapPointInsert');
   }, 500);
 }
 
@@ -172,7 +174,6 @@ function showUpdatePointModal(point){
   currentUpdatedPoint = point;
   let $mapArea = $('<div id="mapPointUpdate" class="mymap"></div>'); 
   $('#updatePointMap').html($mapArea);
-  buildPointsMap([point], 'mapPointUpdate');
 
   let lat = Number(dPointLat);
   let lng = Number(dPointLong);
@@ -187,19 +188,23 @@ function showUpdatePointModal(point){
     currentUpdatedPoint.GPS = true;
   }
   $('#modalUpdatePoint').modal('show');
+  setTimeout(() => {
+    buildPointsMap([point], 'mapPointUpdate');
+  }, 500);
 }
 
 async function inActivePoint(point){
   //delete point here
-  const { dPointLat, dPointLong, iNo, iPointID, iZoneID, sPointCode, sZoneName } = point;
-  let sure = confirm('Are you sure');
+  const {  iPointID } = point;
+  let sure = await showAlertWarning("Are you sure!", "");
   if(sure){
-    console.log(point);
     let sentData = {iPointIDIN: iPointID, bStatusIN: 4, iZoneIDIN: 0,  sPointCodeIN: 0, dGPSLatIN: 0, dGPSLongIN: 0};
     // {"iPointIDIN":"78","bStatusIN":4,"iZoneIDIN":null,"sPointCodeIN":null,"dGPSLatIN":null,"dGPSLongIN":null}
     console.log(JSON.stringify(sentData))
-    let data = await Service.inActivePoint(sentData);
-    console.log(data);
+    let response = await Service.inActivePoint(sentData);
+    console.log(response);
+    showPointsData();
+    showAlertSuccess("Inactive successfully!", "", 2000);
   }
 }
 
@@ -229,6 +234,9 @@ async function updatePoint(){
     };
   }
   let response = await Service.updatePoint(sentData);
+  showPointsData();
+  console.log(response);
+  showAlertSuccess("Update successfully!", "", 2000);
 }
 
 async function insertPoint(){
@@ -241,17 +249,18 @@ async function insertPoint(){
   var sentData = null;
   if(radio[0].checked){
     if(lat.trim() == '' || lng.trim() == '') 
-      return alert('Invalid Data');
+      return showAlertError("Invalid data", "", 2000);
     sentData = { dGPSLatIN: Number(lat), dGPSLongIN: Number(lng), iZoneIDIN: zoneId, sPointCodeIN: 0, bStatusIN: 1, iPointIDIN: 0 };
   }else if(radio[1].checked){
-    if(pointCode.trim() == '') return alert('Invalid data');
+    if(pointCode.trim() == '') return showAlertError("Invalid data", "", 2000);
     sentData = { dGPSLatIN: 0, dGPSLongIN: 0, iZoneIDIN: zoneId, sPointCodeIN: pointCode, bStatusIN: 1, iPointIDIN: 0 };
   }
 
   if(!radio[0].checked && !radio[1].checked)
-    return alert('Invalid data');
+    return showAlertError("Invalid data", "", 2000);
   // {"dGPSLatIN":20.798003814373477,"dGPSLongIN":106.78728103637697,"iZoneIDIN":"1","sPointCodeIN":"P123456","bStatusIN":1,"iPointIDIN":null}
   let data = await Service.insertPoint(sentData);
+  showPointsData();
   console.log(data);
-  
+  showAlertSuccess("Insert successfully!", "", 2000); 
 }
