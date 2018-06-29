@@ -19,7 +19,7 @@ let currentUpdatedPoint = null;
 
 async function showAllZones() {
   let data = await Service.getAllZones();
-  showPointsData();
+  showPointsData(data);
 }
 
 function renderZoneOnJcombobox(data) {

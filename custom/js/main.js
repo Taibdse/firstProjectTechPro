@@ -1,3 +1,5 @@
+const APP_DOMAIN = 'http://115.79.27.219/tracking/';
+
 $('.datepicker').datepicker();
 
 $('.datetimepicker').datetimepicker({

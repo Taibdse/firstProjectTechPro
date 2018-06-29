@@ -1,10 +1,10 @@
-const APP_DOMAIN = 'http://115.79.27.219/tracking/api/';
+
 
 class Service {
   // Guard's request
   static async getGuardsData() {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}GetGuard.php`,
+      url: `${APP_DOMAIN}api/GetGuard.php`,
       method: 'post'
     });
     let parsedData = JSON.parse(data)
@@ -15,7 +15,7 @@ class Service {
 
   static async updateGuard(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}UpdateGuard.php`,
+      url: `${APP_DOMAIN}api/UpdateGuard.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
@@ -24,7 +24,7 @@ class Service {
 
   static async insertGuard(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}UpdateGuard.php`,
+      url: `${APP_DOMAIN}api/UpdateGuard.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
@@ -33,7 +33,7 @@ class Service {
 
   static async getPersonalGuardsInfo() {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}GetGuardInformation.php`,
+      url: `${APP_DOMAIN}api/GetGuardInformation.php`,
       method: 'post',
     });
     let parsedData = JSON.parse(data)
@@ -44,7 +44,7 @@ class Service {
 
   static async sendMessageGuard(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}InsertMessage.php`,
+      url: `${APP_DOMAIN}api/InsertMessage.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
@@ -53,7 +53,7 @@ class Service {
 
   static async inActiveGuard(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}UpdateGuard.php`,
+      url: `${APP_DOMAIN}api/UpdateGuard.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
@@ -63,7 +63,7 @@ class Service {
   //Zone's request
   static async getAllZones() {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}GetZone.php`,
+      url: `${APP_DOMAIN}api/GetZone.php`,
       method: 'post',
     });
     let parsedData = JSON.parse(data);
@@ -74,7 +74,7 @@ class Service {
 
   static async getPointsDataOnZone(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}GetPointData.php`,
+      url: `${APP_DOMAIN}api/GetPointData.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
@@ -86,7 +86,7 @@ class Service {
 
   static async getRoutesOnZone(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}GetRouteData.php`,
+      url: `${APP_DOMAIN}api/GetRouteData.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
@@ -96,10 +96,37 @@ class Service {
     return null;
   }
 
+  static async insertZone(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/UpdateZone.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  static async updateZone(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/UpdateZone.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
+  static async inActiveZone(sentData) {
+    let data = await $.ajax({
+      url: `${APP_DOMAIN}api/UpdateZone.php`,
+      method: 'post',
+      data: JSON.stringify(sentData)
+    });
+    return data;
+  }
+
   // Events'request
   static async getEventsData() {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}GetEvent.php`,
+      url: `${APP_DOMAIN}api/GetEvent.php`,
       method: 'post'
     });
     let parsedData = JSON.parse(data);
@@ -110,7 +137,7 @@ class Service {
 
   static async getEventHistoryData(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}GetEventHistory.php`,
+      url: `${APP_DOMAIN}api/GetEventHistory.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
@@ -125,7 +152,7 @@ class Service {
       CheckingCode: checkingCode
     };
     let data = await $.ajax({
-      url: `${APP_DOMAIN}GetEventHistoryDetail.php`,
+      url: `${APP_DOMAIN}api/GetEventHistoryDetail.php`,
       method: 'post',
       data: JSON.stringify(sentDate)
     });
@@ -138,7 +165,7 @@ class Service {
   //Insicidents'request
   static async getIncidentsData(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}GetIncidentData.php`,
+      url: `${APP_DOMAIN}api/GetIncidentData.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
@@ -150,7 +177,7 @@ class Service {
 
   static async getReportData(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}ReportGuard.php`,
+      url: `${APP_DOMAIN}api/ReportGuard.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     })
@@ -163,7 +190,7 @@ class Service {
   //Route'request
   static async saveRoute(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}UpdateRoute.php`,
+      url: `${APP_DOMAIN}api/UpdateRoute.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
@@ -172,7 +199,7 @@ class Service {
 
   static async getRouteDetailsData(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}GetRouteDetailData.php`,
+      url: `${APP_DOMAIN}api/GetRouteDetailData.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
@@ -184,7 +211,7 @@ class Service {
 
   static async deleteRoute(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}UpdateRoute.php`,
+      url: `${APP_DOMAIN}api/UpdateRoute.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
@@ -193,7 +220,7 @@ class Service {
   
   static async updateRouteGuard(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}UpdateRouteGuard.php`,
+      url: `${APP_DOMAIN}api/UpdateRouteGuard.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
@@ -204,7 +231,7 @@ class Service {
 
   static async updatePoint(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}UpdatePoint.php`,
+      url: `${APP_DOMAIN}api/UpdatePoint.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
@@ -213,7 +240,7 @@ class Service {
 
   static async inActivePoint(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}UpdatePoint.php`,
+      url: `${APP_DOMAIN}api/UpdatePoint.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
@@ -222,7 +249,7 @@ class Service {
 
   static async insertPoint(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}UpdatePoint.php`,
+      url: `${APP_DOMAIN}api/UpdatePoint.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });
@@ -232,7 +259,7 @@ class Service {
   //Asset'request
   static async getAssetsData(sentData) {
     let data = await $.ajax({
-      url: `${APP_DOMAIN}GetAssetData.php`,
+      url: `${APP_DOMAIN}api/GetAssetData.php`,
       method: 'post',
       data: JSON.stringify(sentData)
     });

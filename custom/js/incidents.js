@@ -3,7 +3,7 @@ $(() => {
 
   $('#btnIncidentsData').click(showIncidentsData);
   $('#btnIncidentsMap').click(function(){
-    showMapIncident(arrIncidents);
+    showAllIncidentMap(arrIncidents);
   })
   formatTodayIncident();
 
@@ -14,8 +14,9 @@ const arrIncidents = [];
 async function showIncidentsData() {
   let datetime = $('#incidentDatetime').val();
   if(datetime == '') return alert('No datetime');
-  let sentData = {dDateTime : changeFormatDateTime(datetime)};
+  let sentData = { dDateTime: changeFormatDateTime(datetime) };
   let data = await Service.getIncidentsData(sentData);
+  console.log(data);
   arrIncidents.length = 0;
   if(data) {
     renderIncidentsTable(data);
@@ -47,7 +48,7 @@ function renderIncidentsTable(data) {
   if(data){
     data.forEach(incident => {
       const { sGuardName, sZoneName, dDateTimeIntinial, dDateTimeStart, dDateTimeEnd, sAlertDescription, ImageUrl } = incident;
-      let img = `http://115.79.27.219/tracking/${ImageUrl}`;
+      let img = `${APP_DOMAIN}${ImageUrl}`;
       $tbody.append(`
         <tr>
           <td>
@@ -68,7 +69,7 @@ function renderIncidentsTable(data) {
         </tr>
       `) 
       $tbody.find('.btnShowIncidentMap').last().click(function(){
-        showMapIncident([incident])
+        showMapIncident(incident)
       })
     })
   } else {
@@ -88,7 +89,7 @@ function formatTodayIncident() {
   showIncidentsData();
 }
 
-function buildIncidentMap(incidents){
+function buildIncidentMap(incident){
   $mapArea = $('<div id="mapIncident" style="height: 350px"></div>');
   $('#modalIncidentMap').find('.modal-body').html($mapArea);
 
@@ -108,25 +109,74 @@ function buildIncidentMap(incidents){
       iconSize: [15, 15]
     }
   });
-
   let Error = new LeafIcon({
     iconUrl: '../img/error.png'
   });
-  
-  incidents.forEach(incident => {
-    const { dAlertLat, dAlertLong } = incident
+
+  if(incident){
+    console.log(incident);
+    const { dAlertLat, dAlertLong, ImageUrl, sAlertDescription, dDateTimeIntinial} = incident
     let pos = [Number(dAlertLat), Number(dAlertLong)];
+    let img = `${APP_DOMAIN}${ImageUrl}`;
+    let mes = `${dDateTimeIntinial}<br>${sAlertDescription}<br><img src="${img}" class="img-fluid">`
     L.marker(pos, {
       icon: Error
     }).addTo(map)
-    .bindPopup(`Hello`)
+    .bindPopup(mes)
     .openPopup();
-  })
+  }
 }
 
-function showMapIncident(incidents){
+function buildAllIncidentMap(incidents){
+  $mapArea = $('<div id="mapIncident" style="height: 350px"></div>');
+  $('#modalIncidentMap').find('.modal-body').html($mapArea);
+
+  var map = L.map('mapIncident').setView([20.81715284, 106.77411238], 14);
+  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
+    id: 'Techpro'
+  }).addTo(map);
+
+  L.icon = function (options) {
+    return new L.Icon(options);
+  };
+
+  var LeafIcon = L.Icon.extend({
+    options: {
+      iconSize: [15, 15]
+    }
+  });
+  let Error = new LeafIcon({
+    iconUrl: '../img/error.png'
+  });
+
+  // L.marker([lon, lat], {icon: Error}).bindTooltip(message).addTo(mymap);
+  // message = message + "<br> <center><img src='" + imgurl + "' alt = '' style='width:144px;height:256px;'></center>";
+  if(incidents && incidents.length > 0){
+    incidents.forEach(incident => {
+      const { dAlertLat, dAlertLong, ImageUrl, sAlertDescription, dDateTimeIntinial} = incident;
+      let pos = [Number(dAlertLat), Number(dAlertLong)];
+      let img = `${APP_DOMAIN}${ImageUrl}`;
+      let mes = `${dDateTimeIntinial}<br>${sAlertDescription}<br><img src="${img}" class="img-fluid">`;
+      L.marker(pos, {
+        icon: Error
+      }).bindTooltip(mes)
+      .addTo(map)
+    })
+  }
+}
+
+function showAllIncidentMap(incidents){
   $('#modalIncidentMap').modal('show');
   setTimeout(() => {
-    buildIncidentMap(incidents);
+    buildAllIncidentMap(incidents);
+  }, 500);
+}
+
+function showMapIncident(incident){
+  $('#modalIncidentMap').modal('show');
+  setTimeout(() => {
+    buildIncidentMap(incident);
   }, 500);
 }
